@@ -1,0 +1,95 @@
+
+.postcard{
+    width: 500px;
+    margin: 0 auto;
+    background-color: blue;
+}
+
+.postcard-container{
+    padding: 15px;
+    z-index: 23;
+    background-color: pink; 
+}
+
+.card-img{
+    width: 42px;
+    height: 42px;
+    border-radius: 50px;
+}
+
+.postcard-top{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.postcard-top>form{
+    width: 100%;
+}
+
+.post_input{
+    font-family: 'Nunito', sans-serif;
+    font-size: 26px;
+    padding: 0.32rem;
+    border-radius: 12px;
+    width: 100%;
+}
+
+.postcard-bottom{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+
+
+.button-photo{
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+.post_cancel{
+    display: none;
+}
+
+.post_cancel.show{
+    display: flex;
+   padding: 0px 10px;
+   cursor: pointer;
+   font-size: 21px;
+}
+
+.button-photo>button{
+    padding: 5px;
+    background: none;
+    border: none;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    color: gray;
+    cursor: pointer;
+}
+
+.image_icon{
+    cursor: pointer;
+}
+
+.card_icon{
+    cursor: pointer;
+}
+
+.overlay.show{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1;
+}
+
+.post_input.show{
+    position: fixed;
+    width: 80%;
+    height: 80%;
+}

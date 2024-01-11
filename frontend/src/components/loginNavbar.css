@@ -1,0 +1,90 @@
+.login-nav__container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    
+}
+
+.linkedin-icon{
+    color: rgb(35, 107, 216);
+}
+
+.login-nav__left{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.login-nav__left>p{
+    font-size: 27px;
+    margin-right: 3px;
+    color: rgb(50, 95, 192);
+}
+
+.login-nav__right{
+    display: flex;
+}
+
+.login-nav__icons{
+    display: flex;
+    gap: 2rem;
+}
+
+.login-nav__icons::after{
+    content: '';
+    height: 100%;
+    width: 1px;
+    background-color: gray;
+    margin-right: 2rem;
+}
+
+.nav-icon{
+    text-align: center;
+    cursor: pointer;
+    color: rgb(100, 100, 100);
+}
+
+.nav-icon:hover{
+    color: black;
+}
+
+.login-nav__buttons{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+}
+
+.login-nav__buttons .join{
+    padding: 12px 20px;
+    border-radius: 20px;
+    background: none;
+    border: none;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+}
+
+.login-nav__buttons .join:hover{
+    background: #f1f1f1;
+}
+
+.login-nav__buttons .signin{
+    padding: 12px 20px;
+    border-radius: 20px;
+    border: 2px solid rgb(125, 125, 202);
+    background: none;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+} 
+
+.login-nav__buttons .signin:hover{
+    background: #a0cdfa;
+}
+
+@media only screen and (max-width: 960px) {
+    .login-nav__icons{
+        display: none;
+    }
+}

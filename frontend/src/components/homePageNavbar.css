@@ -1,0 +1,42 @@
+.homepage-navbar__container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0px;
+}
+
+.home-linkedin__icon{
+    font-size: 36px;
+}
+
+.home-icon{
+    font-size: 24px;
+    cursor: pointer;   
+}
+
+.homepage-left{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.homepage-left>input{
+    font-family: 'Nunito', sans-serif;
+    font-size: 21px;
+    padding: 0.32rem;
+    border-radius: 12px;
+}
+
+.homepage-right{
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+.homepage-icon{
+    text-align: center;
+}
+
+.homepage-icon>p{
+    font-size: 14px;
+}
