@@ -1,0 +1,112 @@
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    margin: 0 20px;
+    position: sticky;
+}
+
+.navbar_name{
+    display: flex;
+    gap: 2px;
+    align-items: center;
+}
+
+.navbar_name .DiCssdeck{
+    width: 2.5rem;
+    height: 3rem;
+}
+
+.navbar_menu{
+    display: flex;
+    align-items: center;
+}
+
+.navbar_menu .menu>li>a{
+    color: black;
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 10px 15px;
+    border-radius: 10px;
+}
+
+.navbar_menu .menu>li>a:hover{
+    color: white;
+    background-color: red;
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 10px 15px;
+    border-radius: 10px;
+    transition: all .2s linear;
+}
+
+.moon_icon{
+    color: black;
+}
+.moon_icon:hover{
+    cursor: pointer;
+}
+
+.menu_icon{
+    display: none;
+}
+
+.close_icon{
+    display: none;
+}
+
+@media screen and (max-width:960px) {
+
+    .menu_icon{
+        display: block;
+    }
+
+    .menu{
+        display: none;
+    }
+ 
+    .navbar_menu .show{
+        display: flex;
+        position: absolute;
+        justify-content: center;
+        align-items: center;
+        top: 0px;
+        left: 0px;
+        height: 100%;
+        width: 100%;
+        background: white;   
+        transition: all 3s linear;
+    }
+
+    .navbar_menu .show > li{
+        width: 100%;
+        height: 60%;
+        transition: all 3s linear;
+    }
+
+    .navbar_menu .show > li > a{
+        display: block;
+        font-size: 2rem;
+        margin: 40px;
+        text-align: center;
+        color: black;
+        transition: all 3s linear;
+    }
+
+    .navbar_menu  .show>li>a:hover{
+        color: red;  
+    }
+
+    .show_close_icon{
+        position: absolute;
+        right: 40px;
+        padding: "10px";
+        cursor:"pointer";
+        top: 40px;
+    }
+    .show_close_icon:hover{
+        cursor: pointer;
+    }
+
+}
