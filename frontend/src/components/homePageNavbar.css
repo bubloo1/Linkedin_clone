@@ -35,6 +35,7 @@
 
 .homepage-icon{
     text-align: center;
+    cursor: pointer;
 }
 
 .homepage-icon>p{

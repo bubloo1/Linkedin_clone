@@ -8,7 +8,7 @@ import { faMessage } from '@fortawesome/free-solid-svg-icons'
 import { faBell } from '@fortawesome/free-solid-svg-icons'
 import Profile from '../assets/user-solid.svg'
 import './homePageNavbar.css'
-import { Outlet } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
 
 
 const HomePageNavbar = () => {
@@ -42,7 +42,7 @@ const HomePageNavbar = () => {
             <p>Notification</p>
           </div>
           <div className="homepage-icon">
-             <img src={Profile} alt="" />
+             <Link to="/profile"><img src={Profile} alt="" /></Link>
             <p>ME</p>
           </div>
         </div>

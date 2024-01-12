@@ -1,6 +1,15 @@
+import { faPencil } from '@fortawesome/free-solid-svg-icons'
+import './profileCard.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useState } from 'react'
+import ProfileForm from './ProfileForm'
 
 
 const ProfileCard = () => {
+    const [showForm,setShowForm] = useState<boolean>(false)
+    function handleForm (){
+        showForm ? setShowForm(false) :  setShowForm(true)
+    }
   return (
     <div className="profile_container">
         <div className="top">
@@ -20,11 +29,12 @@ const ProfileCard = () => {
                     </div>
                 </div>
                 <div className="details_right">
-                    <button>pencils</button>
+                    <button onClick={handleForm} className='pencil'><FontAwesomeIcon icon={faPencil} /></button>
                     <div className="college">college</div>
                 </div>
             </div>
         </div>
+        {showForm && <ProfileForm/>}
     </div>
   )
 }

@@ -1,0 +1,51 @@
+
+.profile_container{
+    background-color: pink;
+    width: 70%;
+}
+
+.top{
+    background-color: gray;
+    height: 200px;
+}
+
+.profile_details{
+    display: flex;
+    justify-content: space-between;
+    padding: 40px 20px;
+}
+
+.profile_name{
+    font-weight: bold;
+    font-size: 21px;
+}
+
+.address{
+    padding: 5px 0px;
+    font-size: 14px;
+}
+
+.profile_work{
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 10px;
+}
+
+.open{
+    padding: 12px;
+}
+
+.add_profile{
+    padding: 12px;
+}
+
+.more{
+    padding: 12px;
+}
+
+.pencil{
+    font-size: 21px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}

@@ -1,0 +1,52 @@
+
+
+.overlay{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.profile_form{
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 21;
+    background-color: blue;
+    /* height: 80vh; */
+    width: 50%;
+    padding: 21px;
+}
+
+input{
+    display: block;
+    width: 90%;
+    height: 32px;
+    margin: 10px 0px;
+}
+
+::placeholder{
+    font-size: 21px;
+    color: black;
+    font-weight: 500;
+}
+
+.pronouns{
+    display: block;
+}
+
+.save_btn_container{
+    display: flex;
+    justify-content: end;
+}
+
+.save_btn{
+    padding: 12px;
+    font-size: 16px;
+    color: black;
+    font-weight: 500;
+}
