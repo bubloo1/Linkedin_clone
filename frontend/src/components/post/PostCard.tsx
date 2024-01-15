@@ -9,15 +9,14 @@ import Profile from '../../assets/user-solid.svg'
 import './postCard.css'
 import { ChangeEvent, useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import api from '../../api/getBaseURL'
 
-import { selectAllPosts,addNewPost } from './postSlice'
+import { addNewPost } from './postSlice'
 import { ThunkDispatch } from '@reduxjs/toolkit'
 
 const PostCard = () => {
-    const sendPost = useSelector(selectAllPosts)
+    // const sendPost = useSelector(selectAllPosts)
     const dispatch = useDispatch<ThunkDispatch<any,any,any>>()
-    console.log(sendPost,"send posts")
+    // console.log(sendPost,"send posts")
     const [overlay,setOverlay] = useState<boolean>(false)
     const [post,setPost] = useState<string>('')
 
@@ -39,7 +38,7 @@ const PostCard = () => {
 
   return (
     <div className='postcard'>
-        <div className= {`overlay ${overlay ? "show": null} `}></div>
+        {/* <div className= {`overlay ${overlay ? "show": null} `}></div> */}
         <div className="postcard-container">
             <div className="postcard-top">
                 <img className='card-img' src={Profile} alt="" />

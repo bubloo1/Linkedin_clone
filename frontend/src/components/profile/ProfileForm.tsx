@@ -1,23 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import './profileForm.css';
+import api from '../../api/getBaseURL'
+import { useDispatch } from 'react-redux';
+import { ThunkDispatch } from '@reduxjs/toolkit';
+import {sendProfileDetails} from './profileSlice'
 
 type myDetails = {
   firstName?:string
   lastName?:string
   additionalName?:string
-  selectedPronouns?:number
+  selectedPronouns?:string
   headline?:string
   country?:string
   city?:string
 }
 const ProfileForm = () => {
-  const [selectedPronouns, setSelectedPronouns] = useState(0);
+  const [selectedPronouns, setSelectedPronouns] = useState("");
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [additionalName, setAdditionalName] = useState('');
   const [headline, setHeadline] = useState('');
   const [country,setCountry] = useState('')
   const [city,setCity] = useState('')
+
+  const dispatch = useDispatch<ThunkDispatch<any,any,any>>()
 
   let details:myDetails = {}
 
@@ -49,6 +55,9 @@ function saveProfileDetails() {
       details[field] = city;
     }
   });
+
+    dispatch(sendProfileDetails(details))
+  
 }
 
   const handleDropdownChange = (e:any) => {

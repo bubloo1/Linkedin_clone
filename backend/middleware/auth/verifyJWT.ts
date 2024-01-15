@@ -1,9 +1,11 @@
 import express from 'express'
 import jwt, { JwtPayload } from 'jsonwebtoken'
 
-export function verifyAccessToken  (req: express.Request, res: express.Response, next: express.NextFunction)  {
-    const token = req.header('Authorization');
-  
+
+export default function verifyAccessToken  (req: express.Request, res: express.Response, next: express.NextFunction)  {
+    // const token = req.headers['authorization'];
+    let token: any = req.headers['authorization'];
+    token = (token.split(" "))[1]
     if (!token) {
       return res.status(401).json({ message: 'Access denied. Token not provided.' });
     }

@@ -1,6 +1,6 @@
 import './showPost.css'
 import { useSelector, useDispatch } from 'react-redux'
-import { getPost } from './showPostSlice'
+import { getPost } from './postSlice'
 import { ThunkDispatch } from '@reduxjs/toolkit'
 import { useEffect } from 'react'
 // import { showAllPost } from './showPostSlice'
@@ -10,10 +10,9 @@ type myPost = {
 }
 const ShowPost = () => {
   const dispatch = useDispatch<ThunkDispatch<any,any,any>>()
-  const postStatus = useSelector((state:any) => state.showPosts.status)
-  const post = useSelector((state:any)=> state.showPosts)
-  // let post = useSelector(showAllPost)
-  // console.log(post,"sdfdsfgsdfgfsd")
+  const postStatus = useSelector((state:any) => state.posts.loading2)
+  const post = useSelector((state:any)=> state.posts.posts)
+
   console.log(post,"postststs")
 
   useEffect(() => {
@@ -23,18 +22,15 @@ const ShowPost = () => {
       dispatch(getPost())
     }
   },[])
-  // post = post[0].message
-  // console.log(post,"post")
-  // console.log(getAllPost,"getAllpost")
+
   return (
     <>
       <br />
       <div className="post_container">
           <div className="show_posts">
-            {post.status === "idle" &&<h2>loading</h2>}
-            {post.status == "succeeded" ? post.posts[0].map((p:myPost)=>(
+            {postStatus == "idle" &&<h2>loading</h2>}
+            {postStatus == "succeeded" ? post.map((p:myPost)=>(
               <h2 key={p.post_id}>{p.user_post}</h2>
-              // console.log(p.post_id,p.user_post)
             )): null}
           </div>
       </div>

@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from '../../api/getBaseURL'
 
-import Cookies from 'js-cookie';
+// import Cookies from 'js-cookie';
 
 // Retrieving the token
 // const token = Cookies.get('jwtToken');
@@ -26,7 +26,9 @@ type signupUserProps = {
 export const createNewUser = createAsyncThunk('/auth/signup',async (initialPost: signupUserProps) =>{
     const response = await api.post('/auth/signup', initialPost);
     if (response.data.token){
-        Cookies.set('jwtToken', response.data.token, { expires: 1, path: '/register' });
+        console.log(response.data.token,"token in front end")
+        sessionStorage.setItem('jwtToken', response.data.token);
+        // console.log(Cookies.get('jwtToken'))
     }
     return response.data
 })

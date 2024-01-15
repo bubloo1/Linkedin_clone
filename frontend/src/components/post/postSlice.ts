@@ -1,20 +1,25 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from '../../api/getBaseURL'
 
-// const initialState = [
-//    {id:1,post:"somthuing"}
-// ]
+import Cookies from 'js-cookie';
+// const token = Cookies.get('jwtToken');
 
 type myState = {
-    posts: string[],
-    status: 'idle',
-    error: null
+    addPosts: string[]
+    posts: string[]
+    loading1: string
+    loading2: string
+    error1: string | null | undefined
+    error2: string | null | undefined
  }
 
 const initialState: myState = {
+   addPosts: [],
    posts: [],
-   status: 'idle',
-   error: null
+   loading1: "idle" ,
+   loading2: "idle",
+   error1: null,
+   error2: null
 }
 
 type AddNewPostPayload = {
@@ -22,40 +27,72 @@ type AddNewPostPayload = {
   }
   
 
-
 export const addNewPost = createAsyncThunk('posts/addNewPost',async (initialPost: AddNewPostPayload) =>{
-    const response = await api.post('/post', initialPost);
-    return response.data
+    try{
+        const response = await api.post('post/post', initialPost, {
+          headers:{
+          // "Accept": "application/json",
+          "Content-Type":"application/json",
+          "Authorization": `Bearer ${sessionStorage.getItem('jwtToken')}`
+        }});
+        return response.data
+    }catch(error){
+        console.log(error,"Error")
+        throw error
+    }
 })
 
+export const getPost = createAsyncThunk('posts/showpost',async () =>{
+    try{
+        const response = await api.get('/post/showposts');
+        console.log(response,"response")
+        return response.data.message.map((post:any) => {
+            return {post_id:post.post_id, user_post:post.user_post}
+        })
+    }catch(err){
+        console.log(err,"error")
+        throw err
+    }
+})
 
 const postSlice = createSlice({
     name: "posts",
     initialState,
     reducers:{
-        // postAdded: {
-        //     reducer(state,action:PayloadAction<{ post: string }>){
-        //         state.posts.push(action.payload.post)
-        //     },
-        //     prepare(post){
-        //         return {
-        //             payload:{
-        //                 post
-        //             }
-
-        //         } 
-        //     }
-        // }
 
     },
-    extraReducers(builders){
-        builders.addCase(addNewPost.fulfilled, (state,action)=>{
-            state.posts.push(action.payload)
-        })
-    }
+    extraReducers: (builder) => {
+        // Handle the first fetch request
+        builder.addCase(addNewPost.pending, (state) => {
+          state.loading1 = "idle";
+          state.error1 = null;
+        });
+        builder.addCase(addNewPost.fulfilled, (state, action) => {
+          state.loading1 = "succeeded";
+          state.addPosts = action.payload;
+        });
+        builder.addCase(addNewPost.rejected, (state, action) => {
+          state.loading1 = "failed";
+          state.error1 = action.error.message;
+        });
+    
+        // Handle the second fetch request
+        builder.addCase(getPost.pending, (state) => {
+          state.loading2 = "idle";
+          state.error2 = null;
+        });
+        builder.addCase(getPost.fulfilled, (state, action) => {
+          state.loading2 = "succeeded";
+          state.posts = action.payload;
+        });
+        builder.addCase(getPost.rejected, (state, action) => {
+          state.loading2 = "failed";
+          state.error2 = action.error.message;
+        });
+      },
 
 })
 
-export const selectAllPosts = (state: { posts: { posts: any; }; }) => state.posts.posts
+
 
 export default postSlice.reducer

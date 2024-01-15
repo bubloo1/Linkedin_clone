@@ -81,11 +81,5 @@ export async function loginController(req:express.Request,res:express.Response){
 }
 
 
-export async function postController(req:express.Request,res:express.Response){
-    const {post} = req.body
-    let create_post: RowDataPacket[] = await authMdl.postMdl(post)
-    console.log(create_post,"create post")
-    return res.status(200).json({ message: create_post });
-}
 
 
