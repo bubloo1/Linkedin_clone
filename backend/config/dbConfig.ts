@@ -7,16 +7,16 @@ const connection = mysql.createConnection({
     database: 'personal_project',
   });
 
-export async function query_excution(query_to_execute: string): Promise<RowDataPacket[]>{
+export async function query_excution(query_to_execute: string): Promise<RowDataPacket>{
    
     return new Promise((resolve ,reject) => {
 
-        connection.query(query_to_execute, (err, results: RowDataPacket[], fields) => {
+        connection.query(query_to_execute, (err: any, results: RowDataPacket, fields: any) => {
             console.log("query ininininininin")
             if (err) {
-            console.error('Error executing query:', err);
-            reject(err)
-            return;
+              console.error('Error executing query:', err);
+              reject(err)
+              return;
             }
 
             // connection.end((err) => {

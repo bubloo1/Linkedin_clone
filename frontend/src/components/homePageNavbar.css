@@ -41,3 +41,21 @@
 .homepage-icon>p{
     font-size: 14px;
 }
+
+.profile_box{
+    /* display: none; */
+    position: absolute;
+    top: 70px;
+    right: 190px;
+    background: rgb(146, 124, 124);
+    height: 200px;
+    width: 120px;
+    padding: 10px;
+}
+
+.profile_box>p{
+    cursor: pointer;
+    display: block;
+    text-align: center;
+    color: black;
+}

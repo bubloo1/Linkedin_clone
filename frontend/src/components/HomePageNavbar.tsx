@@ -8,10 +8,24 @@ import { faMessage } from '@fortawesome/free-solid-svg-icons'
 import { faBell } from '@fortawesome/free-solid-svg-icons'
 import Profile from '../assets/user-solid.svg'
 import './homePageNavbar.css'
-import { Link, Outlet } from 'react-router-dom'
+import { Link, Outlet, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 
 
 const HomePageNavbar = () => {
+  const navigate = useNavigate()
+  const [showProfileBox, setShowProfileBox] = useState<boolean>(false)
+  // useEffect(()=>{
+  //   document.addEventListener('mousedown', openProfileBox);
+  // })
+  function openProfileBox (){
+    setShowProfileBox(prev => !prev)
+    console.log(showProfileBox,"showProfileBox")
+  }
+  function userLogout (){
+    navigate('/')
+    window.localStorage.removeItem('isLoggedIn')
+  }
   return (
     <>
     <div className='homepage-navbar'>
@@ -34,21 +48,25 @@ const HomePageNavbar = () => {
             <p>jobs</p>
           </div>
           <div className="homepage-icon">
-            <FontAwesomeIcon className='home-icon' icon={faMessage}/>
+            <Link to="/chat"><FontAwesomeIcon className='home-icon' style={{color:"black"}} icon={faMessage}/></Link>
             <p>Messaging</p>
           </div>
           <div className="homepage-icon">
             <FontAwesomeIcon className='home-icon' icon={faBell}/>
             <p>Notification</p>
           </div>
-          <div className="homepage-icon">
-             <Link to="/profile"><img src={Profile} alt="" /></Link>
+          <div className="homepage-icon" onClick={openProfileBox}>
+             <img src={Profile} alt="" />
+             {/* <Link to="/profile"><img src={Profile} alt="" /></Link> */}
             <p>ME</p>
+          </div>
+          <div className='profile_box' style={showProfileBox ? {display:"block"} : {display:"none"}}>
+              <p onClick={userLogout}>Logout</p>
           </div>
         </div>
       </div>
     </div>
-    <Outlet/>
+      <Outlet/>
     </>
   )
 }  

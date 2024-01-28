@@ -1,6 +1,6 @@
 
 import LoginNavbar from './LoginNavbar'
-import SigninForm from './SigninForm'
+import SigninForm from './auth/SigninForm'
 
 const LoginPage = () => {
   return (

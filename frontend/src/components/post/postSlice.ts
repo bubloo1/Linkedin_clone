@@ -1,9 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from '../../api/getBaseURL'
 
-import Cookies from 'js-cookie';
-// const token = Cookies.get('jwtToken');
-
 type myState = {
     addPosts: string[]
     posts: string[]
@@ -26,15 +23,19 @@ type AddNewPostPayload = {
     post: string; // Adjust the type as needed
   }
   
-
+ 
 export const addNewPost = createAsyncThunk('posts/addNewPost',async (initialPost: AddNewPostPayload) =>{
     try{
         const response = await api.post('post/post', initialPost, {
           headers:{
           // "Accept": "application/json",
           "Content-Type":"application/json",
-          "Authorization": `Bearer ${sessionStorage.getItem('jwtToken')}`
+          "Authorization": `Bearer ${localStorage.getItem('jwtToken')}`
         }});
+        
+        if(response.headers['authorization']){
+          localStorage.setItem('jwtToken',response.headers['authorization'])
+        }
         return response.data
     }catch(error){
         console.log(error,"Error")
@@ -44,13 +45,21 @@ export const addNewPost = createAsyncThunk('posts/addNewPost',async (initialPost
 
 export const getPost = createAsyncThunk('posts/showpost',async () =>{
     try{
-        const response = await api.get('/post/showposts');
-        console.log(response,"response")
+      
+        const response = await api.get('/post/showposts',{headers:{
+          // "Accept": "application/json",
+          "Content-Type":"application/json",
+          "Authorization": `Bearer ${localStorage.getItem('jwtToken')}`,
+         
+        },withCredentials: true});
+        
+        if(response.headers['authorization']){
+          localStorage.setItem('jwtToken',response.headers['authorization'])
+        }
         return response.data.message.map((post:any) => {
             return {post_id:post.post_id, user_post:post.user_post}
         })
     }catch(err){
-        console.log(err,"error")
         throw err
     }
 })

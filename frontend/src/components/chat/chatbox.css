@@ -1,0 +1,36 @@
+
+
+.chat_container{
+    width: 100%;
+    height: 85vh;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    margin-top: 25px;
+}
+
+.chatbox_left{
+    background-color: green;
+    width: 50%;
+}
+
+.chatbox_right{
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    width: 50%;
+    background-color: gray;
+}
+
+.chatbox_container{
+    width: 100%;
+    height: 300px;
+    
+}   
+
+.chat_input{
+    font-size: 24px;
+    height: 34px;
+    width: 100%;
+    align-items: end;
+}

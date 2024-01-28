@@ -29,7 +29,7 @@ export const sendProfileDetails = createAsyncThunk('profile/saveprofiledetails',
             headers:{
             // "Accept": "application/json",
             "Content-Type":"application/json",
-            "Authorization": `Bearer ${sessionStorage.getItem('jwtToken')}`
+            "Authorization": `Bearer ${localStorage.getItem('jwtToken')}`
           }});
         console.log(response,"response")
         return response.data

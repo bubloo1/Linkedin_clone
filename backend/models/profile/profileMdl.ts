@@ -45,7 +45,7 @@ export async function saveProfileDetailsMdl(profileDetails:profileDetails){
     const insertProileDetails =  `insert into user_details set  
     updated_on = CURRENT_TIMESTAMP(), ${qry};`;
     console.log(insertProileDetails,"insertProileDetails")
-    let result:  RowDataPacket[] = await dbutils.query_excution(insertProileDetails)
+    let result:  RowDataPacket = await dbutils.query_excution(insertProileDetails)
     return result
 
 }

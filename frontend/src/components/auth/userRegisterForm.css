@@ -51,3 +51,12 @@ label{
     border-radius: 22px;
     cursor: pointer;
 }
+
+.username_hide{
+    display: none;
+}
+
+.username_show{
+    display: block;
+    color: red;
+}
