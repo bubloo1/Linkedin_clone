@@ -29,7 +29,7 @@ app.use(cors({
   }))
 
 app.use(bodyParser.json({limit: '50mb'}))
-app.use(bodyParser.urlencoded({extended: true}));
+// app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 app.use(express.json())
 
@@ -45,8 +45,7 @@ io.on('connection', (socket: any) => {
   console.log(`user connected with id ${socket.id}`);
 
   socket.on('message', (message: any) => {
-    console.log(message)
-    io.emit('message', message);
+   socket.broadcast.emit('send-to-client',message)
   });
 
   // socket.on('disconnect', () => {
