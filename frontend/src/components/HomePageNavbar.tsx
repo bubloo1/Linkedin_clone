@@ -25,6 +25,7 @@ const HomePageNavbar = () => {
   function userLogout (){
     navigate('/')
     window.localStorage.removeItem('isLoggedIn')
+    console.log("in logout")
   }
   return (
     <>

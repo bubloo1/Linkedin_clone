@@ -30,7 +30,8 @@ export default async function verifyAccessToken  (req: express.Request, res: exp
            }
           }
         }else{
-          req.body.decoded_usr_details = decoded.find_user
+          req.body.token_email = decoded.email
+          req.body.token_user_id = decoded.user_id
           next()
         }
        
