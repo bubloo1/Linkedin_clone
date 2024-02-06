@@ -37,7 +37,7 @@ const LoginNavbar = () => {
                </div>
                 <div className="login-nav__buttons">
                 <Link to="/register"><button className='join'>Join now</button></Link>
-                    <button className='signin'>Sign in</button>
+                <Link to="/signin"><button className='signin'>Sign in</button></Link>
                 </div>
             </div>
         </div>

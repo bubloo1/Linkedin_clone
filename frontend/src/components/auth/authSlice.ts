@@ -10,6 +10,7 @@ type myState = {
     user: string[],
     loginUser: string[]
     status: 'idle',
+    statusLogin: string
     error: null
  }
 
@@ -17,11 +18,17 @@ const initialState: myState = {
    user: [],
    loginUser:[],
    status: 'idle',
+   statusLogin: 'idle',
    error: null
 }
 
 type signupUserProps = {
     email: string,
+    password: string
+}
+
+type loginUserProps = {
+    username: string,
     password: string
 }
 
@@ -35,7 +42,7 @@ export const createNewUser = createAsyncThunk('/auth/signup',async (initialPost:
     return response.data
 })
 
-export const loginUser = createAsyncThunk('/auth/login',async (initialPost: signupUserProps) =>{
+export const loginUser = createAsyncThunk('/auth/login',async (initialPost: loginUserProps) =>{
     const response = await api.post('/auth/login', initialPost);
     console.log(response,"response")
     if (response.data.token){
@@ -56,11 +63,12 @@ const authSlice = createSlice({
             state.user.push(action.payload.token)
         });
         builders.addCase(loginUser.fulfilled,(state,action) => {
-            state.loginUser.push(action.payload.token)
+            state.statusLogin = "fulfilled"
+            state.loginUser = action.payload
         })
     },
 })
 
-export const selectAllUser = (state: { auth: { user: any; }; }) => state.auth.user
+// export const selectAllUser = (state: { auth: { user: any; }; }) => state.auth.user
 
 export default authSlice.reducer

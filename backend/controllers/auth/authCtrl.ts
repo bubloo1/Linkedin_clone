@@ -55,19 +55,21 @@ export async function loginController(req:express.Request,res:express.Response){
     try{
         console.log("in login ctrl", req.body)
     
-        const {email,password} = req.body
+        const {username,password} = req.body
        
-        if(!email || !password){
+        if(!username || !password){
             return res.status(400).json({message: "Enter username and password"})
         }
        
-        let find_user:  RowDataPacket = await authMdl.loginMdl(email)
+        let find_user:  RowDataPacket = await authMdl.loginMdl(username)
+        console.log(find_user,"find_user")
+        if(!find_user[0]) return  res.status(201).json({ message: "Invalid credentials" });
         console.log(find_user[0].user_password,"find_user[0].user_password")
         const hashedPasswordMatch = await bcrypt.compare(password,find_user[0].user_password)
         console.log(hashedPasswordMatch,"hasshj")
         if (hashedPasswordMatch) {
             console.log("in login successfull")
-            const token = jwt.sign({email: find_user[0].user_email, user_id: find_user[0].user_id},"personal_project",{expiresIn: '15s'})
+            const token = jwt.sign({email: find_user[0].user_email, user_id: find_user[0].user_id},"personal_project",{expiresIn: '1d'})
             const saveToken : RowDataPacket = await authMdl.saveTokenMdl(token, find_user[0].user_id)
             // res.cookie('jwt', token, {httpOnly: true, maxAge: 24 * 60 * 60 * 1000});
             return res.status(200).json({ message: "Login successful", token: token});

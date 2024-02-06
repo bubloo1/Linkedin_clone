@@ -1,64 +1,67 @@
-.login-form__container{
-    height: 85vh;
-    width: 100%;
+
+.signin_container{
+    padding: 15px 0px;
+}
+
+
+.signin_logo{
     display: flex;
 }
 
-.login-form__left{
-    height: 100%;
-    width: 55%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
+.signin_linkedin_icon{
+    font-size: 27px;
+    margin-right: 3px;
+    color: rgb(50, 95, 192);
+    cursor: pointer;
 }
 
-.login-form>h1{
-    font-weight: 300;
-    font-size: 52px;
+.signin_linkedin__icon{
+    color: rgb(50, 95, 192);
+    font-size: 32px;
+}
+
+.signin_form{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 26px;
+    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.signin_form>form>h2{
+    font-size: 32px;
+}
+
+.tagline{
+    font-size: 13px;
+    color: rgb(160, 160, 160);
     margin-bottom: 20px;
 }
 
-.login-form>input{
-    width: 80%;
-    height: 42px;
-    font-size: 22px;
-    margin-bottom: 10px;
-}
-.login-form>input::placeholder{
-    font-size: 16px;
-}
-
-.login-form>p{
-    color: black;
-    margin: 10px 0px;
-}
-
-.login-form>button{
-    width: 80%;
-    padding: 15px 0px;
-    background-color: rgb(44, 125, 192);
-    color: white;
+.signin_form>form>input{
+   
     font-size: 21px;
-    font-weight: 400;
+    padding: 1.5rem 0.3rem;
+    width: 300px;
+}
+
+.signin_btn{
+    display: block;
+    /* padding: 20px; */
+    width: 100%;
+    padding: 20px 0px;
+    margin: 0 auto;
+    font-size: 20px;
+    color: white;
+    background: rgb(50, 95, 192);
+    border-radius: 32px;
     border: none;
-    border-radius: 20px;
+    cursor: pointer;
 }
 
-.login-form__right{
-    width: 45%;
-   height: 100%;
-   background-image: url('../src/assets/login-img.svg');
-   background-position: center;
-   background-size: contain;
-   background-repeat: no-repeat;
+.forgot_password{
+    color: rgb(50, 95, 192);
+    margin-bottom: 20px;
 }
-
-
-@media  screen and (max-width: 960px) {
-    .login-form__right{
-        width: 0%;
-    }
-    .login-form__left{
-        margin: 0 auto;
-    }
-}   

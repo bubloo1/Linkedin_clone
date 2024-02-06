@@ -6,7 +6,7 @@ import './App.css'
 import ProfileCard from './components/profile/ProfileCard';
 import HomePageNavbar from './components/HomePageNavbar';
 import ChatBox from './components/chat/ChatBox';
-
+import Signin from './components/auth/SigninForm'
 function App() {
   const loginStaus = window.localStorage.getItem('isLoggedIn')
   // if multiple routes are related to each other we can nest them
@@ -18,6 +18,9 @@ function App() {
       <Routes>
         <Route path="/">
           <Route index element={ loginStaus ? <WelcomePage/> : <LoginPage/>}/>
+            <Route path="/signin">
+              <Route index element={<Signin/>}/>
+            </Route>
             <Route path="/register">
               <Route index element={<UserRegisterForm/>}/>
             </Route>

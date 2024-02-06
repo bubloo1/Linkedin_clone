@@ -1,40 +1,56 @@
-import { ChangeEvent, useState } from 'react'
+import { faLinkedin } from '@fortawesome/free-brands-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './signinForm.css'
-import { useDispatch, useSelector } from 'react-redux'
+import { useState } from 'react'
 import { loginUser } from './authSlice'
+import { useDispatch,useSelector } from 'react-redux'
 import { ThunkDispatch } from '@reduxjs/toolkit'
-import { useNavigate } from 'react-router'
-
+import { useNavigate } from 'react-router-dom'
 const SigninForm = () => {
-  const navigate = useNavigate()
-  const [email, setEmail] = useState<string>('')
-  const [password, setPassword] = useState<string>('')
-  const onEmailChanged = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)
-  const onPasswordChanged = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)
-  const dispatch = useDispatch<ThunkDispatch<any,any,any>>()
-  const loginResponse = useSelector((state:any) => state.auth.loginUser)
-
-  async function sendDetails(){
-    const response = await dispatch(loginUser({email,password}))
-    console.log(response,"dfgfggfg")
-    if(response.meta.requestStatus == 'fulfilled'){
-      navigate("/welcome")
-      window.localStorage.setItem('isLoggedIn',"true")
+    const dispatch = useDispatch<ThunkDispatch<any,any,any>>()
+    const [username,setUsername] = useState<string>('')
+    const [password,setPassword] = useState<string>('')
+    const logindata = useSelector((state:any) => state.auth.loginUser)
+    const logindataStatus = useSelector((state:any) => state.auth.statusLogin)
+    const navigate = useNavigate()
+   async function userLogin(e: React.FormEvent<HTMLFormElement>){
+        e.preventDefault()
+        const canSave = [username,password].every(Boolean)
+     
+     
+        if(canSave){
+            await dispatch(loginUser({username,password}))
+            if(logindataStatus == 'fulfilled' && logindata[0].message == 'Login successful'){
+                navigate('/welcome')
+            }else{
+                alert("invalid credentials")
+            }
+        }else{
+            alert("Enter username and password")
+        }
+        
     }
-  }
   return (
-    <div className='login-form__container'>
-        <div className="login-form__left">
-            <div className="login-form">
-                <h1>Welcome to your Professional Community</h1>
-                <input type="text"  placeholder='Email or Phone number' onChange={onEmailChanged}/>
-                <input type="password"  placeholder='Password' onChange={onPasswordChanged}/>
-                <p>Forgot password?</p>
-                <button onClick={sendDetails}>Sign in</button>
+    <div className="signin_container">
+        <div className="logo_container">
+            <div className="signin_logo">
+                <p className='signin_linkedin_icon'>Linked</p>
+                <FontAwesomeIcon className='signin_linkedin__icon' icon={faLinkedin}/>
             </div>
         </div>
-        <div className="login-form__right">
-        
+        <div className="signin_form">
+            <form onSubmit={userLogin}>
+                <h2>Sign in</h2>
+                <p className='tagline'>Stay updated on your professional world</p>
+                <input value={username} 
+                    onChange={(e)=> setUsername(e.target.value)} 
+                    type="text" placeholder='Email or phone' />
+                <input value={password} 
+                    onChange={(e)=> setPassword(e.target.value)} 
+                    type="password" placeholder='password' />
+                <p className='forgot_password'>Forgot password</p>
+                <button className='signin_btn'>Signin</button>
+            </form>
         </div>
     </div>
   )

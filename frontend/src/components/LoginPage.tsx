@@ -1,12 +1,12 @@
 
 import LoginNavbar from './LoginNavbar'
-import SigninForm from './auth/SigninForm'
+import SignupForm from './auth/SignupForm'
 
 const LoginPage = () => {
   return (
     <div className='app'>
         <LoginNavbar/>
-        <SigninForm/>
+        <SignupForm/>
     </div>
   )
 }
