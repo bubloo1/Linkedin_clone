@@ -40,6 +40,24 @@ export const sendProfileDetails = createAsyncThunk('profile/saveprofiledetails',
     }
 })
 
+export const uploadProfileImage = createAsyncThunk('profile/image',async (formData:FormData) =>{
+    try{
+        const response = await api.post('/profile/profileimageupload',formData,{
+            headers:{
+            // "Accept": "application/json",
+            // "Content-Type":"application/json",
+            "Content-Type":"multipart/form-data",
+            "Authorization": `Bearer ${localStorage.getItem('jwtToken')}`
+          }});
+        console.log(response,"response")
+        return response.data
+     
+    }catch(err){
+        console.log(err,"error")
+        throw err
+    }
+})
+
 
 const profileSlice = createSlice({
     name: "profile",

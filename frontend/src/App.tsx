@@ -9,6 +9,7 @@ import ChatBox from './components/chat/ChatBox';
 import Signin from './components/auth/SigninForm'
 function App() {
   const loginStaus = window.localStorage.getItem('isLoggedIn')
+  // if (!loginStaus) localStorage.removeItem('jwtToken')
   // if multiple routes are related to each other we can nest them
   // index is for default nest route
   // if there is a component you want to show in all register routes you can put that component in element={<component/>} in main route with out index and layout to that component at bottom

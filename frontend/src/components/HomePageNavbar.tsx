@@ -62,6 +62,7 @@ const HomePageNavbar = () => {
             <p>ME</p>
           </div>
           <div className='profile_box' style={showProfileBox ? {display:"block"} : {display:"none"}}>
+              <p onClick={()=> navigate('/profile')}>Profile</p><br />
               <p onClick={userLogout}>Logout</p>
           </div>
         </div>

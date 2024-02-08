@@ -1,6 +1,21 @@
 import  express  from "express";
 import { RowDataPacket } from 'mysql2'
 import * as profileMdl from '../../models/profile/profileMdl'
+import multer  from 'multer'
+
+// Set up multer storage and file filtering
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './uploads/images'); // Set the destination folder for uploaded files
+    },
+    filename: function (req, file, cb) {
+      cb(null, Date.now() + '-' + file.originalname); // Set a unique filename for the uploaded file
+    },
+  });
+
+
+
+export const upload = multer({ storage: storage});
 
 export async function saveProfileDetailsCtrl(req:express.Request,res:express.Response){
     // const {post} = req.body

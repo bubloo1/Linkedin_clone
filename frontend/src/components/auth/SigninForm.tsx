@@ -13,6 +13,7 @@ const SigninForm = () => {
     const logindata = useSelector((state:any) => state.auth.loginUser)
     const logindataStatus = useSelector((state:any) => state.auth.statusLogin)
     const navigate = useNavigate()
+
    async function userLogin(e: React.FormEvent<HTMLFormElement>){
         e.preventDefault()
         const canSave = [username,password].every(Boolean)
@@ -20,7 +21,8 @@ const SigninForm = () => {
      
         if(canSave){
             await dispatch(loginUser({username,password}))
-            if(logindataStatus == 'fulfilled' && logindata[0].message == 'Login successful'){
+            console.log(logindata,"logindata")
+            if(logindataStatus == 'fulfilled' && logindata.message == 'Login successful'){
                 navigate('/welcome')
             }else{
                 alert("invalid credentials")

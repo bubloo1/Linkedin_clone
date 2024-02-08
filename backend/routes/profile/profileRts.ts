@@ -5,6 +5,9 @@ const profileRouter = express.Router()
 
 
 profileRouter.post("/saveprofiledetails", checkToken ,profileCtrl.saveProfileDetailsCtrl)
-
+profileRouter.post("/profileimageupload", profileCtrl.upload.single('profile_image'),(req,res)=>{
+    console.log(req.body)
+    console.log(req.file)
+})
 
 module.exports = profileRouter
