@@ -49,3 +49,21 @@ export async function saveProfileDetailsMdl(profileDetails:profileDetails){
     return result
 
 }
+
+
+export async function saveProfileUrlMdl(path:string|undefined,user_id: number){
+  console.log(path,"path before")
+  path = path?.replace(/\\/gi,"/")
+  const qry = `update user_details set profile_url = '${path}' where user_id = ${user_id}`
+  console.log(qry,"qry")
+  let result:  RowDataPacket = await dbutils.query_excution(qry)
+  return result
+}
+
+
+export async function getProfileDetailsMdl(user_id: number){
+  const qry = `select * from user_details  where user_id = ${user_id}`
+  console.log(qry,"qry")
+  let result:  RowDataPacket = await dbutils.query_excution(qry)
+  return result
+}

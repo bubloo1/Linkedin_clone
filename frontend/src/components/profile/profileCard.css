@@ -63,6 +63,7 @@
 }
 
 .profile_img_div{
+    cursor: pointer;
     padding: 10px;
     width: 100%;
     height: 100%;

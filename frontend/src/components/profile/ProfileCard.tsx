@@ -1,27 +1,38 @@
 import { faPencil } from '@fortawesome/free-solid-svg-icons'
 import './profileCard.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import ProfileForm from './ProfileForm'
 import Profile from '../../assets/user-solid.svg'
 import { faXmark } from '@fortawesome/free-solid-svg-icons/faXmark'
 import { faCamera } from '@fortawesome/free-solid-svg-icons/faCamera'
-import { uploadProfileImage } from './profileSlice'
-import { useDispatch } from 'react-redux'
+import { uploadProfileImage, getProfileDetails } from './profileSlice'
+import { useDispatch, useSelector } from 'react-redux'
 import { ThunkDispatch } from '@reduxjs/toolkit'
+import api from '../../api/getBaseURL'
 
 const ProfileCard = () => {
     const dispatch = useDispatch<ThunkDispatch<any,any,any>>()
     const [showForm,setShowForm] = useState<boolean>(false)
     const [profileImage, setProfileImage] = useState<any>(null)
+
     const fileInpurRef = useRef<any>(null)
+    const [closeImgPopup,setCloseImgPopup] = useState<boolean>(true)
+    const profileDetailsStatus = useSelector((state:any) => state.profile.status2)
+    const profileDetails = useSelector((state:any) => state.profile.profileDetails)
+
+    useEffect(()=> {
+        dispatch(getProfileDetails())
+    },[])
+
     function handleForm (){
         showForm ? setShowForm(false) :  setShowForm(true)
     }
+
     function handleImageUploadClick(){
         fileInpurRef.current.click()
-        console.log("in click")
     }
+
     function handleImageUpload(e: any){
         e.preventDefault()
         const profileImage = e.target.files[0]
@@ -29,8 +40,10 @@ const ProfileCard = () => {
         const formData = new FormData()
         formData.append("profile_image",profileImage)
         dispatch(uploadProfileImage(formData))
-        
     }
+    console.log("http://localhost:3500/" + profileDetails.profile_url)
+    // console.log(profileDetails.message[0].profile_url)
+   
   return (
     <div className="profile_container">
         <div className="top">
@@ -38,10 +51,10 @@ const ProfileCard = () => {
         </div>
         <div className="bottom">
 
-            <div className="profile_img_popup">
+            <div className="profile_img_popup" style={closeImgPopup ? {display:"none"} : {display:"block"}}>
                 <div className="profile_img_popup_top">
                     <p style={{color: "white"}}>Profile photo</p>
-                    <FontAwesomeIcon icon={faXmark} className='popup_cancel' style={{color: "white"}}/>
+                    <FontAwesomeIcon icon={faXmark} onClick={() => setCloseImgPopup(prev => !prev)} className='popup_cancel' style={{color: "white"}}/>
                 </div>
                 <div className="profile_img_popup_middle">
                     <img src={profileImage ? profileImage : Profile} alt="" className='popup_image'/>
@@ -54,9 +67,9 @@ const ProfileCard = () => {
                     </div>
                 </div>
             </div>
-
-            <div className="profile_img">
-                <img className="profile_img_div" src={Profile} alt=""/>
+          
+            <div className="profile_img" onClick={() => setCloseImgPopup(prev => !prev)}>
+                <img className="profile_img_div" src={profileDetailsStatus === "succeeded" ? "http://localhost:3500/" + profileDetails.profile_url : Profile } alt=""/>
             </div>
             <div className="profile_details">
                 <div className="details_left">

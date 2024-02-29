@@ -2,6 +2,22 @@ import express from 'express'
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import generateNewToken from './jwtValidator'
 
+
+declare global {
+  namespace Express {
+    interface Request {
+      // Add your new property here
+      user: {
+        email: string;
+        user_id: number;
+        iat: number
+        exp: number
+      };
+    }
+  }
+}
+
+
 export default async function verifyAccessToken  (req: express.Request, res: express.Response, next: express.NextFunction)  {
 
     let token: any = req.headers['authorization'];
@@ -30,8 +46,10 @@ export default async function verifyAccessToken  (req: express.Request, res: exp
            }
           }
         }else{
-          req.body.token_email = decoded.email
-          req.body.token_user_id = decoded.user_id
+          console.log(decoded,"decodededede")
+          req.user = decoded
+          // req.user.token_user_id = decoded.user_id
+          console.log(req.body,"in authentication")
           next()
         }
        

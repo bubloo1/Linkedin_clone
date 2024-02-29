@@ -37,7 +37,7 @@ const HomePageNavbar = () => {
         </div>
         <div className="homepage-right">
           <div className="homepage-icon">
-            <FontAwesomeIcon className='home-icon' icon={faHouse}/>
+            <Link to='/welcome'><FontAwesomeIcon className='home-icon' icon={faHouse}/></Link>
             <p>Home</p>
           </div>
           <div className="homepage-icon">

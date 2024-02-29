@@ -17,6 +17,16 @@ const storage = multer.diskStorage({
 
 export const upload = multer({ storage: storage});
 
+export async function saveProfileUrl(req:express.Request,res:express.Response) {
+  try{
+    console.log(req.user,"req.body")
+    let saveUrl: RowDataPacket = await profileMdl.saveProfileUrlMdl(req.file?.path,req.user.user_id)
+    console.log(saveUrl,"saveUrl")
+  }catch(error){
+    throw error
+  }
+}
+
 export async function saveProfileDetailsCtrl(req:express.Request,res:express.Response){
     // const {post} = req.body
     try{
@@ -28,4 +38,16 @@ export async function saveProfileDetailsCtrl(req:express.Request,res:express.Res
         console.log(error,"Error")
         throw error
     }
+}
+
+export async function getProfileDetailsCtrl(req:express.Request,res:express.Response){
+  try{
+      console.log(req.body,"body")
+      let create_post: RowDataPacket = await profileMdl.getProfileDetailsMdl(req.user.user_id)
+      console.log(create_post,"create post")
+      return res.status(200).json({ message: create_post });
+  }catch(error){
+      console.log(error,"Error")
+      throw error
+  }
 }
