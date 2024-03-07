@@ -7,7 +7,7 @@ import { faCalendar } from '@fortawesome/free-regular-svg-icons'
 import { faNewspaper } from '@fortawesome/free-regular-svg-icons'
 import Profile from '../../assets/user-solid.svg'
 import './postCard.css'
-import { ChangeEvent, useState, useEffect } from 'react'
+import { ChangeEvent, useState, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { addNewPost } from './postSlice'
@@ -19,14 +19,19 @@ const PostCard = () => {
     // console.log(sendPost,"send posts")
     const [overlay,setOverlay] = useState<boolean>(false)
     const [post,setPost] = useState<string>('')
+    const fileInputRef = useRef<any>(null)
 
-    function handleOverlay(){
-        if(overlay){
-            setOverlay(false)
-        }else{
-            setOverlay(true)
+    function handleOverlay(n:number){
+        if(n == 1 && !overlay) {
+            setOverlay((prev) => !prev) 
+        } else if (n == 0) {
+            setOverlay((prev)=> !prev)
         }
       
+    }
+
+    function handleImgUpload(){
+        fileInputRef.current.click()
     }
 
     const onPostChange = (e: ChangeEvent<HTMLInputElement>) => setPost(e.target.value)
@@ -38,19 +43,37 @@ const PostCard = () => {
 
   return (
     <div className='postcard'>
-        {/* <div className= {`overlay ${overlay ? "show": null} `}></div> */}
+        <div className= {`post_overlay ${overlay ? "show":""} `}></div>
         <div className="postcard-container">
             <div className="postcard-top">
                 <img className='card-img' src={Profile} alt="" />
-                <form onSubmit={handlePost}>
-                <input type="text" placeholder = {` ${overlay ? "what do you want to talk about?": "Start to post" }`}
-                 onClick={handleOverlay} className= {`post_input ${overlay ? "show": null }`} 
-                    value={post} onChange={onPostChange}/>
-                {/* <button onClick={handlePost}>Post</button> */}
+
+                <input type="text" className='post_input' placeholder = {` ${overlay ? "what do you want to talk about?": "Start to post" }`}
+                            onClick={() => handleOverlay(1)}  value={post} onChange={onPostChange}/>
+
+                <form  style={{ display: `${overlay ? "block": "none"}`}} onSubmit={handlePost}>
+
+                    <div className= {`post_input_overlay ${overlay ? "show": null }`} >
+                        <div className="post_form_profile">
+                            <div className='post_over_profile'>
+                                <img className='card-img' src={Profile} alt="" />
+                                <p style={{ display: `${overlay ? "block": "none"}`}}>Name</p>
+                            </div>
+                            <FontAwesomeIcon onClick={() => handleOverlay(0)} icon={faXmark} className={`post_cancel ${overlay ? "show": null} `}/>
+                        </div>
+
+                        <input type="text" placeholder = {` ${overlay ? "what do you want to talk about?": "Start to post" }`}
+                            onClick={() => handleOverlay(1)}  value={post} onChange={onPostChange}/>
+                        <div className="post_actions">
+                        <div className="button-photo" style={{ display: `${overlay ? "block": "none"}`}}>
+                            <FontAwesomeIcon className='image_icon' icon={faImage}/>
+                            <input ref={fileInputRef} onChange={handleImgUpload} type="file" accept='image/*' style={{display:'none'}}/>
+                            <button onClick={handleImgUpload}>Photo</button>
+                        </div>
+                        </div>
+                    </div>
                 </form>
-                <div className="">
-                    <FontAwesomeIcon icon={faXmark} className={`post_cancel ${overlay ? "show": null} `}/>
-                </div>
+               
             </div>
             <div className="postcard-bottom">
                 <div className="button-photo">

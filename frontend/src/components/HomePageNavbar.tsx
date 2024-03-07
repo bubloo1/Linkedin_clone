@@ -9,7 +9,7 @@ import { faBell } from '@fortawesome/free-solid-svg-icons'
 import Profile from '../assets/user-solid.svg'
 import './homePageNavbar.css'
 import { Link, Outlet, useNavigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 
 const HomePageNavbar = () => {
@@ -40,7 +40,7 @@ const HomePageNavbar = () => {
             <Link to='/welcome'><FontAwesomeIcon className='home-icon' icon={faHouse}/></Link>
             <p>Home</p>
           </div>
-          <div className="homepage-icon">
+          <div className="homepage-icon" onClick={()=> navigate('/network')}>
             <FontAwesomeIcon className='home-icon' icon={faUserGroup}/>
             <p>My Network</p>
           </div>

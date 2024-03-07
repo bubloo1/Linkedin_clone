@@ -11,9 +11,9 @@ type profileDetails = {
     city?: string
 }
 
-export async function saveProfileDetailsMdl(profileDetails:profileDetails){
+export async function saveProfileDetailsMdl(profileDetails:profileDetails,user_id:any){
     const values: string[] = [];
-
+    console.log(profileDetails,"profileDetails")
     Object.entries(profileDetails).forEach(([key, value]) => {
       if (value !== undefined) {
         switch (key) {
@@ -42,8 +42,9 @@ export async function saveProfileDetailsMdl(profileDetails:profileDetails){
       }
     });
     const qry = values.join(', ');
-    const insertProileDetails =  `insert into user_details set  
-    updated_on = CURRENT_TIMESTAMP(), ${qry};`;
+    console.log(qry,"qry")
+    const insertProileDetails =  `update user_details set  
+    updated_on = CURRENT_TIMESTAMP(), ${qry} where user_id = ${user_id};`;
     console.log(insertProileDetails,"insertProileDetails")
     let result:  RowDataPacket = await dbutils.query_excution(insertProileDetails)
     return result
@@ -63,6 +64,13 @@ export async function saveProfileUrlMdl(path:string|undefined,user_id: number){
 
 export async function getProfileDetailsMdl(user_id: number){
   const qry = `select * from user_details  where user_id = ${user_id}`
+  console.log(qry,"qry")
+  let result:  RowDataPacket = await dbutils.query_excution(qry)
+  return result
+}
+
+export async function getAllProfileDetailsMdl(){
+  const qry = `select * from user_details;`
   console.log(qry,"qry")
   let result:  RowDataPacket = await dbutils.query_excution(qry)
   return result

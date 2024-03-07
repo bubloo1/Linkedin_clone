@@ -7,6 +7,8 @@ import ProfileCard from './components/profile/ProfileCard';
 import HomePageNavbar from './components/HomePageNavbar';
 import ChatBox from './components/chat/ChatBox';
 import Signin from './components/auth/SigninForm'
+import NetworkProfile from './components/network/networkProfile';
+
 function App() {
   const loginStaus = window.localStorage.getItem('isLoggedIn')
   // if (!loginStaus) localStorage.removeItem('jwtToken')
@@ -33,6 +35,9 @@ function App() {
             </Route>
             <Route path='/chat' element={<HomePageNavbar/>}>
               <Route index element={<ChatBox/>}/>
+            </Route>
+            <Route path='/network' element={<HomePageNavbar/>}>
+              <Route index element={<NetworkProfile/>}/>
             </Route>
         </Route>
       </Routes>

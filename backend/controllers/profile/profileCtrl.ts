@@ -31,7 +31,7 @@ export async function saveProfileDetailsCtrl(req:express.Request,res:express.Res
     // const {post} = req.body
     try{
         console.log(req.body,"body")
-        let create_post: RowDataPacket = await profileMdl.saveProfileDetailsMdl(req.body)
+        let create_post: RowDataPacket = await profileMdl.saveProfileDetailsMdl(req.body,req.user.user_id)
         console.log(create_post,"create post")
         return res.status(200).json({ message: create_post });
     }catch(error){
@@ -48,6 +48,16 @@ export async function getProfileDetailsCtrl(req:express.Request,res:express.Resp
       return res.status(200).json({ message: create_post });
   }catch(error){
       console.log(error,"Error")
+      throw error
+  }
+}
+
+export async function getAllProfileDetailsCtrl(req:express.Request,res:express.Response){
+  try{
+      let getProfielDetails: RowDataPacket = await profileMdl.getAllProfileDetailsMdl()
+      console.log(getProfielDetails,"create post")
+      return res.status(200).json({ message: getProfielDetails });
+  }catch(error){
       throw error
   }
 }

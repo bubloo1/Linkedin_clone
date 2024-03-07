@@ -14,7 +14,7 @@ type myDetails = {
   country?:string
   city?:string
 }
-const ProfileForm = () => {
+const ProfileForm = ({showForm}:any) => {
   const [selectedPronouns, setSelectedPronouns] = useState("");
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -57,7 +57,7 @@ function saveProfileDetails() {
   });
 
     dispatch(sendProfileDetails(details))
-  
+    showForm()
 }
 
   const handleDropdownChange = (e:any) => {

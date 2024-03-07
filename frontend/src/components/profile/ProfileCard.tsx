@@ -89,7 +89,7 @@ const ProfileCard = () => {
                 </div>
             </div>
         </div>
-        {showForm && <ProfileForm/>}
+        {showForm && <ProfileForm showForm = {() => setShowForm(prev => !prev)} />}
     </div>
   )
 }
