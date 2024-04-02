@@ -56,7 +56,7 @@ export async function loginController(req:express.Request,res:express.Response){
             const token = jwt.sign({email: find_user[0].user_email, user_id: find_user[0].user_id},"personal_project",{expiresIn: '1d'})
             const saveToken : RowDataPacket = await authMdl.saveTokenMdl(token, find_user[0].user_id)
             // res.cookie('jwt', token, {httpOnly: true, maxAge: 24 * 60 * 60 * 1000});
-            return res.status(200).json({ message: "Login successful", token: token});
+            return res.status(200).json({ message: "Login successful", token: token, userDetails: find_user[0] });
           } else {
             return res.status(401).json({ message: "Invalid credentials" });
         }

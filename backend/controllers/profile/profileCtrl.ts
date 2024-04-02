@@ -54,7 +54,30 @@ export async function getProfileDetailsCtrl(req:express.Request,res:express.Resp
 
 export async function getAllProfileDetailsCtrl(req:express.Request,res:express.Response){
   try{
-      let getProfielDetails: RowDataPacket = await profileMdl.getAllProfileDetailsMdl()
+      let getProfielDetails: RowDataPacket = await profileMdl.getAllProfileDetailsMdl(req.user.user_id)
+      console.log(getProfielDetails,"create post")
+      return res.status(200).json({ message: getProfielDetails });
+  }catch(error){
+      throw error
+  }
+}
+
+export async function saveConnectionDetailsCtrl(req:express.Request,res:express.Response){
+  try{
+      const {connectionFrom,connectionTo} = req.body
+      console.log(connectionFrom,connectionTo,"conection")
+      let getProfielDetails: RowDataPacket = await profileMdl.saveConnectionDetailsMdl(connectionFrom,connectionTo)
+      console.log(getProfielDetails,"create post")
+      return res.status(200).json({ message: getProfielDetails });
+  }catch(error){
+      throw error
+  }
+}
+
+
+export async function getNotificationDetailsCtrl(req:express.Request,res:express.Response){
+  try{
+      let getProfielDetails: RowDataPacket = await profileMdl.getNotificationDetailsMdl(req.user.user_id)
       console.log(getProfielDetails,"create post")
       return res.status(200).json({ message: getProfielDetails });
   }catch(error){

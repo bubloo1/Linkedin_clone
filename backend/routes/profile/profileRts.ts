@@ -8,5 +8,7 @@ profileRouter.post("/saveprofiledetails", checkToken ,profileCtrl.saveProfileDet
 profileRouter.post("/profileimageupload",  checkToken, profileCtrl.upload.single('profile_image'), profileCtrl.saveProfileUrl)
 profileRouter.get("/getprofiledetails", checkToken ,profileCtrl.getProfileDetailsCtrl)
 profileRouter.get("/getallprofiledetails", checkToken ,profileCtrl.getAllProfileDetailsCtrl)
+profileRouter.post("/sendconnectiondetails", checkToken ,profileCtrl.saveConnectionDetailsCtrl)
+profileRouter.get("/getnotificationdetails", checkToken ,profileCtrl.getNotificationDetailsCtrl)
 
 module.exports = profileRouter

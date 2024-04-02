@@ -47,7 +47,7 @@
     position: absolute;
     top: 70px;
     right: 190px;
-    background: rgb(146, 124, 124);
+    background: rgb(204, 199, 199);
     height: 200px;
     width: 120px;
     padding: 10px;
@@ -60,3 +60,15 @@
     color: black;
 }
 
+.show_notification{
+    position: absolute;
+    top: 80px;
+    right: 100px;
+    background: blue;
+    width: 500px;
+    height: 500px;
+}
+
+.dont_show_notification{
+    display: none;
+}

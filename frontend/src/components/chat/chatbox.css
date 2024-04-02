@@ -10,36 +10,26 @@
 }
 
 .chatbox_left{
-    background-color: rgb(49, 74, 216);
     width: 45%;
     height: 100%;
     overflow-y: auto;
+    border: 2px solid black;
 }
-
-
-/* .chatbox_right::before{
-   content: '';
-   background: rgb(37, 207, 14);
-   width: 10px;
-   height: 100%;
-   margin: 10px;
-   top: 0px;
-} */
-
 
 .chatbox_right{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     width: 55%;
-    background-color: rgb(206, 11, 11);
+    border: 1px solid black;
 }
 
 
 .chat_input{
     font-size: 24px;
-    height: 34px;
+    height: 75px;
     width: 100%;
+    background: rgb(248, 248, 248);
 }
 
 .chat_profile{
@@ -47,7 +37,12 @@
     height: 100px;
     width: 100%;
     align-items: center;
-    background: pink;
+    border: 1px solid black;
+}
+
+.chat_profile:hover{
+    background: rgb(235, 235, 235);
+    cursor: pointer;
 }
 
 .chat_img{
@@ -60,7 +55,6 @@
     height: 100%;
     display: flex;
     justify-content: center;
-    background: yellow;
     border-radius: 50%;
     font-size: 3rem;
 }
@@ -68,7 +62,20 @@
 .chat_profile_details{
     height: 100%;
     width: 100%;
-    background: green;
     padding: 10px;
 }
 
+.chatbox_msg_options{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.chatbox_msg_options > button{
+    background: blue;
+    color: white;
+    padding: 10px 20px;
+    font-size: 21px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+}

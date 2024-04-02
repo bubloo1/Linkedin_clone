@@ -14,12 +14,14 @@ import { addNewPost } from './postSlice'
 import { ThunkDispatch } from '@reduxjs/toolkit'
 
 const PostCard = () => {
-    // const sendPost = useSelector(selectAllPosts)
+    // const sendPost = useSelector((state:any) => state.post.post)
     const dispatch = useDispatch<ThunkDispatch<any,any,any>>()
     // console.log(sendPost,"send posts")
     const [overlay,setOverlay] = useState<boolean>(false)
     const [post,setPost] = useState<string>('')
     const fileInputRef = useRef<any>(null)
+    
+    const onPostChange = (e: ChangeEvent<HTMLInputElement>) => setPost(e.target.value)
 
     function handleOverlay(n:number){
         if(n == 1 && !overlay) {
@@ -34,11 +36,27 @@ const PostCard = () => {
         fileInputRef.current.click()
     }
 
-    const onPostChange = (e: ChangeEvent<HTMLInputElement>) => setPost(e.target.value)
+    const formData = new FormData()
+    function handlePostImg (e:any){
+        // e.preventDefault();
+        console.log(e.target.files[0],"sdfgfgdfgfgdg")
+        const profileImage = e.target.files[0]
+        // setPostImage(URL.createObjectURL(profileImage))
+        formData.append("post_image",profileImage)
+        
+    }
+
  
-    async function handlePost(e: { preventDefault: () => void }){
-        e.preventDefault();
-        await dispatch(addNewPost({post}));
+    async function handlePost(e: any){
+        // e.preventDefault();
+        formData.append("post",post)
+        console.log("send send send")
+        console.log(formData.get('post'),"formData")
+        await dispatch(addNewPost(formData));
+        formData.delete("post")
+        formData.delete("post_image")
+        setOverlay((prev) => !prev) 
+        setPost('')
     }
 
   return (
@@ -51,9 +69,9 @@ const PostCard = () => {
                 <input type="text" className='post_input' placeholder = {` ${overlay ? "what do you want to talk about?": "Start to post" }`}
                             onClick={() => handleOverlay(1)}  value={post} onChange={onPostChange}/>
 
-                <form  style={{ display: `${overlay ? "block": "none"}`}} onSubmit={handlePost}>
+                {/* <form  style={{ display: `${overlay ? "block": "none"}`}}> */}
 
-                    <div className= {`post_input_overlay ${overlay ? "show": null }`} >
+                    <div style={{ display: `${overlay ? "block": "none"}`}} className= {`post_input_overlay ${overlay ? "show": null }`} >
                         <div className="post_form_profile">
                             <div className='post_over_profile'>
                                 <img className='card-img' src={Profile} alt="" />
@@ -65,14 +83,15 @@ const PostCard = () => {
                         <input type="text" placeholder = {` ${overlay ? "what do you want to talk about?": "Start to post" }`}
                             onClick={() => handleOverlay(1)}  value={post} onChange={onPostChange}/>
                         <div className="post_actions">
-                        <div className="button-photo" style={{ display: `${overlay ? "block": "none"}`}}>
-                            <FontAwesomeIcon className='image_icon' icon={faImage}/>
-                            <input ref={fileInputRef} onChange={handleImgUpload} type="file" accept='image/*' style={{display:'none'}}/>
-                            <button onClick={handleImgUpload}>Photo</button>
-                        </div>
+                            <div className="button-photo" onClick={handleImgUpload} style={{ display: `${overlay ? "block": "none"}`}}>
+                                <FontAwesomeIcon className='image_icon' icon={faImage}/>
+                                <input ref={fileInputRef} onChange={handlePostImg} type="file" accept='image/*' style={{display:'none'}}/>
+                                <button >Photo</button>
+                            </div>
+                            <button className='post_btn' onClick={handlePost} >Post</button>
                         </div>
                     </div>
-                </form>
+                {/* </form> */}
                
             </div>
             <div className="postcard-bottom">

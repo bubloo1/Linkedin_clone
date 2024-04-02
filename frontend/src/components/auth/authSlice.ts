@@ -49,6 +49,10 @@ export const loginUser = createAsyncThunk('/auth/login',async (initialPost: logi
         console.log(response.data.token,"token in front end")
         localStorage.setItem('jwtToken', response.data.token);
     }
+    if(response.data.userDetails){
+        console.log(response.data.userDetails,"response.data.userDetails")
+        localStorage.setItem('userID',response.data.userDetails.user_id)
+    }
     return response.data
 })
 

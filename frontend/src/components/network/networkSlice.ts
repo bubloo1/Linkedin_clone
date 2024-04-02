@@ -33,12 +33,36 @@ export const getNetworkProfile = createAsyncThunk('profile/getallprofiledetails'
     }
 })
 
+export const sendConnectionDetails = createAsyncThunk('profile/sendconnectiondetails',async (connectiondata: {connectionTo:number, connectionFrom:string | null}) =>{
+  try{
+      const response = await api.post('profile/sendconnectiondetails', connectiondata, {
+        headers:{
+        // "Accept": "application/json",
+        "Content-Type":"application/json",
+        "Authorization": `Bearer ${localStorage.getItem('jwtToken')}`
+      }});
+      
+      if(response.headers['authorization']){
+        localStorage.setItem('jwtToken',response.headers['authorization'])
+      }
+     
+      return response.data.message
+  }catch(error){
+      console.log(error,"Error")
+      throw error
+  }
+})
+
 
 
 const postSlice = createSlice({
     name: "posts",
     initialState,
     reducers:{
+
+      handleConnections: (state, action)=> {
+        state.networkProfile = action.payload
+      },
 
     },
     extraReducers: (builder) => {
@@ -60,5 +84,5 @@ const postSlice = createSlice({
 })
 
 
-
+export const { handleConnections } = postSlice.actions
 export default postSlice.reducer

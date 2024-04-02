@@ -7,7 +7,8 @@ import ProfileCard from './components/profile/ProfileCard';
 import HomePageNavbar from './components/HomePageNavbar';
 import ChatBox from './components/chat/ChatBox';
 import Signin from './components/auth/SigninForm'
-import NetworkProfile from './components/network/networkProfile';
+import NetworkProfile from './components/network/NetworkProfile';
+import Notification from './components/notification/notification';
 
 function App() {
   const loginStaus = window.localStorage.getItem('isLoggedIn')
@@ -38,6 +39,9 @@ function App() {
             </Route>
             <Route path='/network' element={<HomePageNavbar/>}>
               <Route index element={<NetworkProfile/>}/>
+            </Route>
+            <Route path='/notification' element={<HomePageNavbar/>}>
+              <Route index element={<Notification/>}/>
             </Route>
         </Route>
       </Routes>

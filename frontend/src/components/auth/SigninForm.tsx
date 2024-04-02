@@ -6,6 +6,7 @@ import { loginUser } from './authSlice'
 import { useDispatch,useSelector } from 'react-redux'
 import { ThunkDispatch } from '@reduxjs/toolkit'
 import { useNavigate } from 'react-router-dom'
+
 const SigninForm = () => {
     const dispatch = useDispatch<ThunkDispatch<any,any,any>>()
     const [username,setUsername] = useState<string>('')
@@ -22,7 +23,7 @@ const SigninForm = () => {
         if(canSave){
             await dispatch(loginUser({username,password}))
             console.log(logindata,"logindata")
-            if(logindataStatus == 'fulfilled' && logindata.message == 'Login successful'){
+            if(logindataStatus == "fulfilled" || logindata.message == 'Login successful'){
                 navigate('/welcome')
             }else{
                 alert("invalid credentials")

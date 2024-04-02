@@ -10,6 +10,7 @@ import http from 'http';
 import cookieParser from 'cookie-parser'
 const server = http.createServer(app);
 const socketIO = require('socket.io');
+import checkToken from './middleware/auth/verifyJWT'
 
 const io =  socketIO(server,{
   cors:{
@@ -40,12 +41,26 @@ app.use(session({
     cookie: { secure: true }
   }))
 
+  // type socketUserMapType = {
+  //   userID: string
+  // }
+  let socketUserMap: { [userID: string]: string } = {}
 
 io.on('connection', (socket: any) => {
   console.log(`user connected with id ${socket.id}`);
 
+  socket.on('setupUserID',(userID:{userID:string}) => {
+    socketUserMap[userID.userID] = socket.id
+    console.log(socketUserMap,"socketuserMAp")
+  })
+
   socket.on('message', (message: any) => {
-   socket.broadcast.emit('send-to-client',message)
+    console.log(message,"message")
+    if(message.userID){
+
+      socket.to(socketUserMap[message.userID]).emit('send-to-client',message)
+      console.log(socketUserMap[message.userID],"sdfdfdfdfwse")
+    }
   });
 
   // socket.on('disconnect', () => {

@@ -23,6 +23,7 @@
     text-align: center;
     font-size: 15px;
     cursor: pointer;
+    margin-top: 8px;
 }
 
 .profile_bio > p{
@@ -35,6 +36,7 @@
     text-align: center;
     color: grey;
     font-size: 12px;
+    margin: 15px 0px;
 }
 
 .card_top{
@@ -48,10 +50,18 @@
     padding: 10px;
     width: 150px;
     font-size: 15px;
+    font-weight: bold;
+    color: blue;
+    border-radius: 20px;
+    cursor: pointer;
+    border: 1px solid blue;
+}
+
+.card_bottom > button:hover{
     color: white;
-    border: none;
     background: blue;
     cursor: pointer;
+    border: 1px solid blue;
 }
 
 .network_profile_img{
@@ -61,14 +71,16 @@
     width: 120px;
     border-radius: 60px;
     cursor: pointer;
+    margin-top: -35px;
 }
 
 .network_profile_img > img{
     padding: 5px;
     display: block;
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
     margin: 0 auto;
+    border-radius: 50px;
 }
 
 .card_bottom{

@@ -1,26 +1,46 @@
 import './showPost.css'
 import { useSelector, useDispatch } from 'react-redux'
-import { getPost } from './postSlice'
+import { getPost, updatePostLikes, saveComment, getComments } from './postSlice'
 import { ThunkDispatch } from '@reduxjs/toolkit'
-import { useEffect } from 'react'
+import {  useEffect, useState } from 'react'
 import { faThumbsUp, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Profile from '../../assets/user-solid.svg'
 import { faComment } from '@fortawesome/free-regular-svg-icons'
 import { faRetweet } from '@fortawesome/free-solid-svg-icons/faRetweet'
 import { faPaperPlane } from '@fortawesome/free-regular-svg-icons/faPaperPlane'
+import {toggleLike, toggleComment} from './postSlice'
 
 // import { showAllPost } from './showPostSlice'
 type myPost = {
-  post_id:number,
-  user_post:string
+  postID:number,
+  userPost:string
+  userFirstName: string
+  userLastName: string
+  postBio: string
+  userURL: string
+  postURL: string
+  postLiked: number
+  showComment: boolean
 }
+
+
 const ShowPost = () => {
+
   const dispatch = useDispatch<ThunkDispatch<any,any,any>>()
   const postStatus = useSelector((state:any) => state.posts.loading2)
-  const post = useSelector((state:any)=> state.posts.posts)
+  let post = useSelector((state:any)=> state.posts.posts)
+  const commentStatus = useSelector((state:any) => state.posts.loading3)
+  let comments = useSelector((state:any)=> state.posts.comments)
+  const [addComment,setAddComment] = useState<string>('')
+  // const [showComments,setShowComments] = useState<boolean>(false)
 
   console.log(post,"postststs")
+  console.log(comments,"comments")
+
+// {commentStatus == "succeeded" ? comments.map((comment:any)=>(
+//   console.log(comment,"this is bs")
+// )): null}
 
   useEffect(() => {
 
@@ -30,19 +50,51 @@ const ShowPost = () => {
     }
   },[])
 
+  function handleLikes (postID:number){
+    post = post.map((myPost: myPost) => 
+      myPost.postID == postID ? {...myPost, postLiked: myPost.postLiked == 1 ? 0 :  1} : myPost
+    )
+    console.log(post,"new post")
+    dispatch(toggleLike(post))
+    dispatch(updatePostLikes({postID}))
+  }
+
+  function handleComments (postID:number){
+
+    post = post.map((myPost: myPost) => 
+    myPost.postID == postID ? {...myPost, showComment: !myPost.showComment } : myPost
+  )
+    dispatch(toggleComment(post))
+    dispatch(getComments({postID}))
+    // setShowComments(!showComments)
+    console.log(postID,"postID in commenyts")
+  }
+
+  function sendComment (e: React.FormEvent<HTMLFormElement>,postID:number){
+    e.preventDefault()
+    if(addComment != ''){
+      dispatch(saveComment({addComment,postID}))
+    }
+
+    setAddComment('')
+  }
+
   return (
-    
-      <div className="post_container">
+     <>
+     {postStatus == "idle" &&<h2>loading</h2>}
+     {postStatus == "succeeded" && post.map((p:myPost)=>(
+      
+      <div key={p.postID} className="post_container">
         <div className="post_profile">
           <div className="post_profile_left">
             <div className="post_profile_img">
-              <img src={Profile} alt="" />
+              <img src={p.userURL ? p.userURL : Profile} alt="" />
             </div>
             <div className="post_profile_details">
               <div className="post_name">
-                <p className='name'>Name</p>
+                <p className='name'>{p.userFirstName + " " + p.userLastName}</p>
                 <p>following</p>
-                <p className="post_bio">user bio</p>
+                <p className="post_bio">{p.postBio}</p>
               </div>
             </div>
           </div>
@@ -51,28 +103,27 @@ const ShowPost = () => {
           </div>
         </div>
         <div className="post_description">
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-            Ipsum cum praesentium itaque quia error, repellendus at quo fugit incidunt veniam!</p>
+          <p>{p.userPost}</p>
         </div>
         <div className="post_img">
-          <img src={Profile} alt="" />
+          <img src={p.postURL ? p.postURL : Profile} alt="" />
         </div>
 
         <div className="post_actions">
-          <div className="like_count">
+          {/* <div className="like_count">
             <p>123</p>
             <div className="post_comments">
               <p>28 comments</p>
-              {/* <p>8 reports</p> */}
+              <p>8 reports</p>
             </div>
-          </div>
+          </div> */}
 
           <div className="post_like">
-            <div className="post_icon">
-              <FontAwesomeIcon icon={faThumbsUp} />
+            <div className="post_icon"  onClick={() => handleLikes(p.postID)}>
+              <FontAwesomeIcon className={p.postLiked == 1 ? "like_active": ""} icon={faThumbsUp} />
               <p>Like</p>
             </div>
-            <div className="post_icon">
+            <div className="post_icon" onClick={() => handleComments(p.postID)}>
               <FontAwesomeIcon icon={faComment} />
               <p>Comment</p>
             </div>
@@ -86,8 +137,25 @@ const ShowPost = () => {
             </div>
           </div>
         </div>
-
+        <div className={ p.showComment ? "comment_container show" : "comment_container"}>
+          <div className="comment_input">
+            <div className="commment_profile_img">
+              <img src={Profile} alt="" />
+            </div>
+            <form onSubmit={(e) => sendComment(e,p.postID)}>
+              <input value={addComment} onChange={(e) => setAddComment(e.target.value)} type="text" />
+            </form>
+          </div>
+          {commentStatus === 'succeeded' && comments.map((comment:any) => (
+          <div key={comment.comment_id} className="show_comments">
+            <p>{comment.comment}</p>
+          </div>
+        ))}
+        </div>
       </div>
+       ))}
+      </>
+
   )
 }
 

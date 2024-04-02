@@ -69,8 +69,23 @@ export async function getProfileDetailsMdl(user_id: number){
   return result
 }
 
-export async function getAllProfileDetailsMdl(){
-  const qry = `select * from user_details;`
+export async function getAllProfileDetailsMdl(user_id:number){
+  const qry = `select * from user_details where user_id not in (${user_id});`
+  console.log(qry,"qry")
+  let result:  RowDataPacket = await dbutils.query_excution(qry)
+  return result
+}
+
+export async function saveConnectionDetailsMdl(connectionFrom:number, connectionTo:number){
+  const qry = `insert into network_connections set connection_from_id = ${connectionFrom}, connection_to_id = ${connectionTo}, created_on = CURRENT_TIMESTAMP();`
+  console.log(qry,"qry")
+  let result:  RowDataPacket = await dbutils.query_excution(qry)
+  return result
+}
+
+
+export async function getNotificationDetailsMdl(user_id:number){
+  const qry = `select count(*) as notificationCount from network_connections where connection_to_id = ${user_id};`
   console.log(qry,"qry")
   let result:  RowDataPacket = await dbutils.query_excution(qry)
   return result

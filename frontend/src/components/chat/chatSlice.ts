@@ -8,13 +8,17 @@ import api from '../../api/getBaseURL'
 
 type myState = {
     chatuser: string[],
+    chatData: string[]
     status: string
+    chatDataStatus: string
     error: null
  }
 
 const initialState: myState = {
    chatuser: [],
+   chatData: [],
    status: 'idle',
+   chatDataStatus: 'idle',
    error: null
 }
 
@@ -31,7 +35,8 @@ export const getUserdata = createAsyncThunk('/chat/getchatdetails',async () =>{
         localStorage.setItem('jwtToken',response.headers['authorization'])
       }
     return response.data.message.map((profile:any)=> {
-        return {id:profile.user_id, username: profile.user_username}
+        return {id:profile.user_id, username: profile.user_username, firstName: profile.first_name, 
+            lastName: profile.last_name}
     })
 })
 
@@ -39,13 +44,15 @@ const chatSlice = createSlice({
     name: 'chat',
     initialState,
     reducers:{
+        addChat:(state,action) =>{
+            state.chatData = action.payload
+        }
 
     },
     extraReducers(builders) {
         builders.addCase(getUserdata.fulfilled,(state,action) => {
             state.status = "succeeded"
-            console.log(action.payload,"payload")
-            state.chatuser = (action.payload)
+            state.chatuser = action.payload
         })
     },
 })
