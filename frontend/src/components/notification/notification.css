@@ -1,0 +1,49 @@
+
+.notification_container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.notification_name{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.notification_img{
+    width: 50px;
+    cursor: pointer;
+}
+
+.notification_img > img{
+    width: 100%;
+}
+
+.network_button{
+    display: flex;
+    gap: 1rem;
+}
+
+.network_button > button{
+    padding: 7px;
+    border: none;
+    background: white;
+    color: blue;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.network_button > button:hover{
+    padding: 7px;
+    border: none;
+    background: rgb(49, 49, 223);
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    border-radius: 25px;
+}

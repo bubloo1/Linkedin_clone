@@ -10,5 +10,6 @@ profileRouter.get("/getprofiledetails", checkToken ,profileCtrl.getProfileDetail
 profileRouter.get("/getallprofiledetails", checkToken ,profileCtrl.getAllProfileDetailsCtrl)
 profileRouter.post("/sendconnectiondetails", checkToken ,profileCtrl.saveConnectionDetailsCtrl)
 profileRouter.get("/getnotificationdetails", checkToken ,profileCtrl.getNotificationDetailsCtrl)
+profileRouter.get("/getnotifications", checkToken ,profileCtrl.getNotificationConnectionDetailsCtrl)
 
 module.exports = profileRouter

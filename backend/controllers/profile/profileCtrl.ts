@@ -84,3 +84,13 @@ export async function getNotificationDetailsCtrl(req:express.Request,res:express
       throw error
   }
 }
+
+export async function getNotificationConnectionDetailsCtrl(req:express.Request,res:express.Response){
+  try{
+      let getProfielDetails: RowDataPacket = await profileMdl.getNotificationConnectionDetailsMdl(req.user.user_id)
+      console.log(getProfielDetails,"getProfielDetails")
+      return res.status(200).json({ message: getProfielDetails });
+  }catch(error){
+      throw error
+  }
+}

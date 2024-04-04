@@ -46,20 +46,8 @@ const HomePageNavbar = ({count}:any) => {
             <Link to='/welcome'><FontAwesomeIcon className='home-icon' style={{color:"black"}} icon={faHouse}/></Link>
             <p>Home</p>
           </div>
-          <div className="homepage-icon" onClick={()=> navigate('/network')}>
+          <div className="homepage-icon" style={{ position: 'relative' }} onClick={()=> navigate('/network')}>
             <FontAwesomeIcon className='home-icon' icon={faUserGroup}/>
-            <p>My Network</p>
-          </div>
-          <div className="homepage-icon">
-            <FontAwesomeIcon className='home-icon' icon={faSuitcase}/>
-            <p>jobs</p>
-          </div>
-          <div className="homepage-icon">
-            <Link to="/chat"><FontAwesomeIcon className='home-icon' style={{color:"black"}} icon={faMessage}/></Link>
-            <p>Messaging</p>
-          </div>
-          <div onClick={handleNotification} className="homepage-icon" style={{ position: 'relative' }}>
-            <FontAwesomeIcon className='home-icon' icon={faBell}/>
             {count > 0 && (
               <div
                 style={{
@@ -81,6 +69,19 @@ const HomePageNavbar = ({count}:any) => {
               {count}
             </div>
       )}
+            <p>My Network</p>
+          </div>
+          <div className="homepage-icon">
+            <FontAwesomeIcon className='home-icon' icon={faSuitcase}/>
+            <p>jobs</p>
+          </div>
+          <div className="homepage-icon">
+            <Link to="/chat"><FontAwesomeIcon className='home-icon' style={{color:"black"}} icon={faMessage}/></Link>
+            <p>Messaging</p>
+          </div>
+          <div onClick={handleNotification} className="homepage-icon" >
+            <FontAwesomeIcon className='home-icon' icon={faBell}/>
+           
             <p>Notification</p>
            
           </div>

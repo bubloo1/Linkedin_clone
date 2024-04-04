@@ -8,7 +8,7 @@ import HomePageNavbar from './components/HomePageNavbar';
 import ChatBox from './components/chat/ChatBox';
 import Signin from './components/auth/SigninForm'
 import NetworkProfile from './components/network/NetworkProfile';
-import Notification from './components/notification/notification';
+import Notification from './components/notification/Notification';
 
 function App() {
   const loginStaus = window.localStorage.getItem('isLoggedIn')

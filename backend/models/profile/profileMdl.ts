@@ -90,3 +90,10 @@ export async function getNotificationDetailsMdl(user_id:number){
   let result:  RowDataPacket = await dbutils.query_excution(qry)
   return result
 }
+
+export async function getNotificationConnectionDetailsMdl(user_id:number){
+  const qry = `select ud.first_name, ud.last_name, ud.profile_url from network_connections join user_details as ud on connection_from_id = user_id where connection_to_id = ${user_id};`
+  console.log(qry,"qry")
+  let result:  RowDataPacket = await dbutils.query_excution(qry)
+  return result
+}

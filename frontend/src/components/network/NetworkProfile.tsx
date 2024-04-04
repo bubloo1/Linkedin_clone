@@ -5,6 +5,7 @@ import './networkProfile.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { ThunkDispatch } from '@reduxjs/toolkit'
 import { getNetworkProfile, sendConnectionDetails, handleConnections } from './networkSlice'
+import Notification from '../notification/Notification'
 // type profileDetails = {
 //     gender?:string | undefined
 //     first_name?: string | undefined
@@ -33,6 +34,9 @@ const NetworkProfile = () => {
     }
 
     return (
+        <>
+        <Notification/>
+        <h3>People you may know</h3>
         <div style={{display:"flex", flexWrap: "wrap"}}>
             {networkProfileStatus === "succeeded" && networkProfileDetails.map((user: any) => (
                 <div className='network_container' key={user.user_id}>
@@ -57,6 +61,7 @@ const NetworkProfile = () => {
                 </div>
             ))}
         </div>
+        </>
     );
 }    
 export default NetworkProfile
