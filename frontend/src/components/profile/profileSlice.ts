@@ -78,6 +78,24 @@ export const getProfileDetails = createAsyncThunk('profile/getprofiledetails',as
     }
 })
 
+export const getConnectionCount = createAsyncThunk('profile/getconnectionCount',async (userID:string | null) =>{
+    try{
+        const response = await api.post('/profile/getconnectionCount',{userID},{
+            headers:{
+            // "Accept": "application/json",
+            // "Content-Type":"application/json",
+            "Content-Type":"application/json",
+            "Authorization": `Bearer ${localStorage.getItem('jwtToken')}`
+          }});
+        console.log(response.data.message[0].connectionsCount,"response")
+        return response.data.message[0].connectionsCount
+     
+    }catch(err){
+        console.log(err,"error")
+        throw err
+    }
+})
+
 
 const profileSlice = createSlice({
     name: "profile",

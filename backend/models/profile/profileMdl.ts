@@ -92,7 +92,22 @@ export async function getNotificationDetailsMdl(user_id:number){
 }
 
 export async function getNotificationConnectionDetailsMdl(user_id:number){
-  const qry = `select ud.first_name, ud.last_name, ud.profile_url from network_connections join user_details as ud on connection_from_id = user_id where connection_to_id = ${user_id};`
+  const qry = `select connection_id, ud.first_name, ud.last_name, ud.profile_url from network_connections join user_details as ud on connection_from_id = user_id 
+    where connection_to_id = ${user_id} and connection_status = 0;`
+  console.log(qry,"qry")
+  let result:  RowDataPacket = await dbutils.query_excution(qry)
+  return result
+}
+
+export async function updateConnectionStatusMdl(connection_id:string){
+  const qry = `update network_connections set connection_status = 1 where connection_id = ${connection_id};`
+  console.log(qry,"qry")
+  let result:  RowDataPacket = await dbutils.query_excution(qry)
+  return result
+}
+
+export async function connectionCountMdl(connection_id:string){
+  const qry = `select count(*) as connectionsCount from network_connections where connection_from_id = ${connection_id} and connection_status = 1;`
   console.log(qry,"qry")
   let result:  RowDataPacket = await dbutils.query_excution(qry)
   return result

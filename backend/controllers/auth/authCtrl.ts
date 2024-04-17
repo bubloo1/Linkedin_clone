@@ -40,7 +40,7 @@ export async function loginController(req:express.Request,res:express.Response){
         console.log("in login ctrl", req.body)
     
         const {username,password} = req.body
-       
+        console.log(username,"username")
         if(!username || !password){
             return res.status(400).json({message: "Enter username and password"})
         }

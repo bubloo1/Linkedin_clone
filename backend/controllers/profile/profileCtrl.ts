@@ -94,3 +94,28 @@ export async function getNotificationConnectionDetailsCtrl(req:express.Request,r
       throw error
   }
 }
+
+export async function updateConnectionStatusCtrl(req:express.Request,res:express.Response){
+  try{
+      const { id } = req.params
+      console.log(id,"id id id id did ")
+      let getProfielDetails: RowDataPacket = await profileMdl.updateConnectionStatusMdl(id)
+      console.log(getProfielDetails,"getProfielDetails")
+      return res.status(200).json({ message: getProfielDetails });
+  }catch(error){
+      throw error
+  }
+}
+
+export async function connectionCountCtrl(req:express.Request,res:express.Response){
+  try{
+      // const { userID } = req.body.
+      // console.log(userID,"id id id id did ")
+      console.log(req.body,"dfiugfuigfjdgkfoigfoghfhg")
+      let getConnectionCount: RowDataPacket = await profileMdl.connectionCountMdl(req.body.userID)
+     
+      return res.status(200).json({ message: getConnectionCount });
+  }catch(error){
+      throw error
+  }
+}

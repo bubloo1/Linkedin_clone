@@ -6,7 +6,7 @@ import ProfileForm from './ProfileForm'
 import Profile from '../../assets/user-solid.svg'
 import { faXmark } from '@fortawesome/free-solid-svg-icons/faXmark'
 import { faCamera } from '@fortawesome/free-solid-svg-icons/faCamera'
-import { uploadProfileImage, getProfileDetails } from './profileSlice'
+import { uploadProfileImage, getProfileDetails, getConnectionCount } from './profileSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { ThunkDispatch } from '@reduxjs/toolkit'
 import api from '../../api/getBaseURL'
@@ -15,14 +15,20 @@ const ProfileCard = () => {
     const dispatch = useDispatch<ThunkDispatch<any,any,any>>()
     const [showForm,setShowForm] = useState<boolean>(false)
     const [profileImage, setProfileImage] = useState<any>(null)
+    let [connectionsCount, setConnectionsCount] = useState<any>(0)
 
     const fileInpurRef = useRef<any>(null)
     const [closeImgPopup,setCloseImgPopup] = useState<boolean>(true)
     const profileDetailsStatus = useSelector((state:any) => state.profile.status2)
     const profileDetails = useSelector((state:any) => state.profile.profileDetails)
-
-    useEffect(()=> {
+    
+    useEffect(() => {
         dispatch(getProfileDetails())
+        const fetchConnectionCount = async () => {
+            connectionsCount = await dispatch(getConnectionCount(localStorage.getItem('userID')))
+            setConnectionsCount(connectionsCount.payload)
+        }
+        fetchConnectionCount()
     },[])
 
     function handleForm (){
@@ -76,7 +82,7 @@ const ProfileCard = () => {
                     <div className="profile_name">Shaik Allabaksh</div>
                     <div className="profile_bio">Backend Developer</div>
                     <div className="address">Hyderabad,Telangana</div>
-                    <div className="profile_connections">297 Connections</div>
+                    <div className="profile_connections">{connectionsCount} connections</div>
                     <div className="profile_work">
                         <button className="open">Open to</button>
                         <button className="add_profile">Add profile section</button>

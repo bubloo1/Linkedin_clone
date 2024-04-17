@@ -33,6 +33,26 @@ export const getconnectionProfile = createAsyncThunk('notification/getnotificati
     }
 })
 
+export const updateconnectionStatus = createAsyncThunk('notification/updateconnectionstatus',async (connectionID:number) =>{
+    try{
+        const response = await api.get(`profile/updateconnectionstatus/${connectionID}`, {
+          headers:{
+          // "Accept": "application/json",
+          "Content-Type":"application/json",
+          "Authorization": `Bearer ${localStorage.getItem('jwtToken')}`
+        }});
+        
+        if(response.headers['authorization']){
+          localStorage.setItem('jwtToken',response.headers['authorization'])
+        }
+  
+        return response.data.message
+    }catch(error){
+        console.log(error,"Error")
+        throw error
+    }
+})
+
 
 
 const notificationSlice = createSlice({

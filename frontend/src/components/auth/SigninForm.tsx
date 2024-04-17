@@ -23,11 +23,14 @@ const SigninForm = () => {
         if(canSave){
             await dispatch(loginUser({username,password}))
             console.log(logindata,"logindata")
-            if(logindataStatus == "fulfilled" || logindata.message == 'Login successful'){
-                navigate('/welcome')
-            }else{
-                alert("invalid credentials")
-            }
+            setTimeout(() => {
+                if(logindataStatus == "fulfilled" || logindata.message == 'Login successful'){
+                    navigate('/welcome')
+                }
+                else{
+                    alert("invalid credentials")
+                }
+            }, 600);
         }else{
             alert("Enter username and password")
         }
