@@ -12,7 +12,7 @@ import { Link, Outlet, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 
 
-const HomePageNavbar = ({count}:any) => {
+const HomePageNavbar = ({notificationCount}:any) => {
  
   const navigate = useNavigate()
   const [showProfileBox, setShowProfileBox] = useState<boolean>(false)
@@ -48,7 +48,7 @@ const HomePageNavbar = ({count}:any) => {
           </div>
           <div className="homepage-icon" style={{ position: 'relative' }} onClick={()=> navigate('/network')}>
             <FontAwesomeIcon className='home-icon' icon={faUserGroup}/>
-            {count > 0 && (
+            {notificationCount > 0 && (
               <div
                 style={{
                   position: 'absolute',
@@ -66,7 +66,7 @@ const HomePageNavbar = ({count}:any) => {
                   fontWeight: 'bold'
                 }}
               >
-              {count}
+              {notificationCount}
             </div>
       )}
             <p>My Network</p>

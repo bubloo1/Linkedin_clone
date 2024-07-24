@@ -82,6 +82,7 @@ const ShowPost = () => {
   return (
      <>
      {postStatus == "idle" &&<h2>loading</h2>}
+     {postStatus == "succeeded" && console.log(post,"uigdfhkjslhhhhhhhl  ofdghdfjklgfd jfdghfdgoidflgj")}
      {postStatus == "succeeded" && post.map((p:myPost)=>(
       
       <div key={p.postID} className="post_container">

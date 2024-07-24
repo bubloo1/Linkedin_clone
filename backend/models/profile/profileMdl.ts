@@ -1,6 +1,36 @@
 import * as dbutils from '../../config/dbConfig'
 import { RowDataPacket } from 'mysql2'
 
+import mongoose from "mongoose";
+import { AutoIncrementID } from '@typegoose/auto-increment';
+
+export const networkSchema = new mongoose.Schema({
+  connection_id:{
+      type: Number,
+      unique: true
+  },
+  connection_from_id:{
+      type: Number,
+      required: true,
+  },
+  connection_to_id: {
+      type: Number,
+      required: true,
+  },
+  connection_status:{
+      type: Number,
+      default: 0
+  },
+  created_on:{
+      type: String
+  },
+  
+})
+
+networkSchema.plugin(AutoIncrementID, { field: 'connection_id' });
+
+export const networkCollection : mongoose.Model<any> = mongoose.model("network",networkSchema)
+
 type profileDetails = {
     selectedPronouns?:string
     firstName?: string
@@ -112,3 +142,12 @@ export async function connectionCountMdl(connection_id:string){
   let result:  RowDataPacket = await dbutils.query_excution(qry)
   return result
 }
+
+// {
+//   connection_from_id: 1,
+//   connection_to_id: 3,
+//   connection_status: 0,
+//   _id: new ObjectId('669e472f59cb8bd9f6792559'),
+//   connection_id: 3,
+//   __v: 0
+// } create post

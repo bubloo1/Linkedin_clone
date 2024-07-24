@@ -10,24 +10,23 @@ export async function signupController(req:express.Request,res:express.Response)
     
     const {email, password} = req.body
     try{
-       
+
         if(!email || !password){
             return res.status(400).json({message: "Enter username and password"})
         }
-        let result:  RowDataPacket = await authMdl.signupCheckDuplicateMdl(email)
-        
-        if(result.length > 0){
+        let result = await authMdl.userCollection.findOne({user_email: email}).lean().exec()
+        console.log(result,"email")
+        if(result){
             return res.status(201).json({message: "duplicate user", duplicate: true })
         }   
-        const hashedPassword: string = await bcrypt.hash(password,10)
-       
-        let create_user: RowDataPacket = await authMdl.createUserMdl(`${email}`,email,hashedPassword)
-     
-        const token = jwt.sign({email: email, user_id: create_user.insertId},"personal_project",{expiresIn: '1d'})
         
-        const saveToken : RowDataPacket = await authMdl.saveTokenMdl(token, create_user.insertId)
-        // res.cookie('jwt', token, {httpOnly: true,secure: true, maxAge: 24 * 60 * 60 * 1000});
-        return res.status(200).json({message: create_user,token: token})
+        const hashedPassword: string = await bcrypt.hash(password,10)
+        
+        const newUser = await authMdl.userCollection.create({user_username:email,user_password: hashedPassword,user_email:email})
+        console.log(newUser,"newUser")
+        const token = jwt.sign({email: email, user_id: newUser.user_id},"personal_project",{expiresIn: '1d'})
+        
+        return res.status(200).json({message: newUser,token: token})
     }catch(error){
         console.error(error);
         return res.status(500).json({ message: "Internal Server Error" });
@@ -45,18 +44,18 @@ export async function loginController(req:express.Request,res:express.Response){
             return res.status(400).json({message: "Enter username and password"})
         }
        
-        let find_user:  RowDataPacket = await authMdl.loginMdl(username)
+        let find_user = await authMdl.userCollection.findOne({user_email:username})
         console.log(find_user,"find_user")
-        if(!find_user[0]) return  res.status(201).json({ message: "Invalid credentials" });
-        console.log(find_user[0].user_password,"find_user[0].user_password")
-        const hashedPasswordMatch = await bcrypt.compare(password,find_user[0].user_password)
+        if(!find_user) return  res.status(201).json({ message: "Invalid credentials" });
+        console.log(find_user.user_password,"find_user.user_password")
+        const hashedPasswordMatch = await bcrypt.compare(password,find_user.user_password)
         console.log(hashedPasswordMatch,"hasshj")
         if (hashedPasswordMatch) {
             console.log("in login successfull")
-            const token = jwt.sign({email: find_user[0].user_email, user_id: find_user[0].user_id},"personal_project",{expiresIn: '1d'})
-            const saveToken : RowDataPacket = await authMdl.saveTokenMdl(token, find_user[0].user_id)
+            const token = jwt.sign({email: find_user.user_email, user_id: find_user.user_id},"personal_project",{expiresIn: '1d'})
+            const saveToken : RowDataPacket = await authMdl.saveTokenMdl(token, find_user.user_id)
             // res.cookie('jwt', token, {httpOnly: true, maxAge: 24 * 60 * 60 * 1000});
-            return res.status(200).json({ message: "Login successful", token: token, userDetails: find_user[0] });
+            return res.status(200).json({ message: "Login successful", token: token, userDetails: find_user });
           } else {
             return res.status(401).json({ message: "Invalid credentials" });
         }

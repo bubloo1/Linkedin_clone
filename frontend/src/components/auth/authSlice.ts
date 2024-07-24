@@ -9,9 +9,9 @@ import api from '../../api/getBaseURL'
 type myState = {
     user: string[],
     loginUser: string[]
-    status: 'idle',
-    statusLogin: string
-    error: null
+    status: string,
+    statusLogin: string,
+    error: string | null | undefined
  }
 
 const initialState: myState = {
@@ -66,9 +66,16 @@ const authSlice = createSlice({
         builders.addCase(createNewUser.fulfilled, (state,action)=> {
             state.user.push(action.payload.token)
         });
+        builders.addCase(loginUser.pending,(state,action) => {
+            state.statusLogin = "idle"
+        })
         builders.addCase(loginUser.fulfilled,(state,action) => {
             state.statusLogin = "fulfilled"
             state.loginUser = action.payload
+        })
+        builders.addCase(loginUser.rejected,(state,action) => {
+            state.statusLogin = "failed"
+            state.error = action.error.message
         })
     },
 })

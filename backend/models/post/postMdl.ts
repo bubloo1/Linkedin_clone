@@ -1,6 +1,68 @@
 
 import * as dbutils from '../../config/dbConfig'
 import { RowDataPacket } from 'mysql2'
+import mongoose from 'mongoose';
+import { AutoIncrementID } from '@typegoose/auto-increment';
+
+export const postSchema = new mongoose.Schema({
+    post_id:{
+        type: Number,
+        unique: true
+    },
+    user_post:{
+        type: String,
+        required: true,
+    },
+    user_id: {
+        type: Number,
+        required: true,
+    },
+    post_url:{
+        type: String,
+        required: true,
+    },
+    created_on:{
+        type: Date,
+        default: Date.now
+    },
+    post_like:{
+        type: Number,
+        default: 0
+        
+    },
+    post_like_count:{
+        type: Number,
+        default: 0
+    },
+ 
+})
+
+postSchema.plugin(AutoIncrementID, { field: 'post_id' });
+
+export const postCollection : mongoose.Model<any> = mongoose.model("Posts",postSchema)
+
+export const postCommentsSchema = new mongoose.Schema({
+    comment_id:{
+        type: Number,
+        unique: true
+    },
+    comment:{
+        type: String,
+    },
+    post_id: {
+        type: Number,
+        required: true,
+    },
+    created_on:{
+        type: Date,
+        default: Date.now
+    },
+ 
+})
+
+postCommentsSchema.plugin(AutoIncrementID, { field: 'comment_id' });
+
+export const commentCollection : mongoose.Model<any> = mongoose.model("Comments",postCommentsSchema)
 
 export async function showPostMdl(){
     const insertPost =  `select p.*, ud.first_name, ud.last_name, ud.user_bio, ud.profile_url from posts as p join user_details as ud on ud.user_id = p.user_id;`

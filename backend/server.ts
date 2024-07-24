@@ -1,3 +1,4 @@
+require('dotenv').config()
 import express from 'express'
 const app = express()
 const PORT = 3500
@@ -10,7 +11,11 @@ import http from 'http';
 import cookieParser from 'cookie-parser'
 const server = http.createServer(app);
 const socketIO = require('socket.io');
-import checkToken from './middleware/auth/verifyJWT'
+import mongoose from 'mongoose'
+import {connetDB} from './config/dbConfig'
+
+connetDB()
+
 
 const io =  socketIO(server,{
   cors:{
@@ -74,6 +79,9 @@ app.use('/uploads', express.static('uploads'));
 app.use('/',mainRtr)
 
 // have installed nodemon and ts-node to excute .ts file directly
-server.listen(PORT,()=>{
+mongoose.connection.once('open', () => {
+  console.log("connected to Mongose")
+  server.listen(PORT,()=>{
     console.log(`server is running on port ${PORT}`)
+})
 })

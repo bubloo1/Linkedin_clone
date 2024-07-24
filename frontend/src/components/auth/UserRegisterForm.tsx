@@ -40,11 +40,13 @@ const UserRegisterForm = () => {
       try{
         
         const response = await dispatch(createNewUser({email, password}))
-        console.log(document.cookie,"cookie")
+        console.log(response,"reponse new user created")
         if(response.payload.duplicate){
           alert("duplicate user")
         }else if(response.meta.requestStatus == 'fulfilled'){
           navigate('/welcome')
+          localStorage.setItem('userID',response.payload.message.user_id)
+          window.localStorage.setItem('isLoggedIn',"true")
         }
 
       } catch(err){

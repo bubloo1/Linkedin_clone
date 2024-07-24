@@ -17,18 +17,27 @@ const SigninForm = () => {
   async function sendDetails(){
     const response = await dispatch(loginUser({username,password}))
     console.log(response,"dfgfggfg")
-    if(response.meta.requestStatus == 'fulfilled'){
+    if(response.meta.requestStatus === 'fulfilled' && response.payload.message === 'Login successful'){
       navigate("/welcome")
       window.localStorage.setItem('isLoggedIn',"true")
+    }else{
+      alert('Invalid credentials')
     }
   }
+
+  const handleKeyDown = (e: any) => {
+    if (e.key === 'Enter') {
+      sendDetails();
+    }
+  }
+
   return (
-    <div onKeyDown={sendDetails} className='login-form__container'>
+    <div className='login-form__container'>
         <div className="login-form__left">
             <div className="login-form">
                 <h1>Welcome to your Professional Community</h1>
-                <input type="text"  placeholder='Email or Phone number' onChange={onEmailChanged}/>
-                <input type="password"  placeholder='Password' onChange={onPasswordChanged}/>
+                <input type="text"  placeholder='Email or Phone number' onKeyDown={handleKeyDown} onChange={onEmailChanged}/>
+                <input type="password"  placeholder='Password' onKeyDown={handleKeyDown} onChange={onPasswordChanged}/>
                 <p>Forgot password?</p>
                 <button style={{cursor: "pointer"}} onClick={sendDetails}>Sign in</button>
             </div>

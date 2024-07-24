@@ -6,15 +6,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ThunkDispatch } from '@reduxjs/toolkit'
 import { getNetworkProfile, sendConnectionDetails, handleConnections } from './networkSlice'
 import Notification from '../notification/Notification'
-// type profileDetails = {
-//     gender?:string | undefined
-//     first_name?: string | undefined
-//     last_name?: string | undefined
-//     additionalName?: string | undefined
-//     headline?: string | undefined
-//     country?: string | undefined
-//     city?: string | undefined
-// }
 
 const NetworkProfile = () => {
     const dispatch = useDispatch<ThunkDispatch<any,any,any>>()

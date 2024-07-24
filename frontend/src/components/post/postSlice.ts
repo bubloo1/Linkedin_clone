@@ -56,13 +56,14 @@ export const getPost = createAsyncThunk('posts/showpost',async () =>{
         if(response.headers['authorization']){
           localStorage.setItem('jwtToken',response.headers['authorization'])
         }
-        return response.data.message.map((post:any) => {
+        console.log(response.data.message,"response.data.message")
+        return response.data.message ? response.data.message.map((post:any) => {
             return {postID:post.post_id, userPost:post.user_post, 
               userURL: "http://localhost:3500/" + post.profile_url, 
               userFirstName: post.first_name, userLastName: post.last_name, 
               postURL: "http://localhost:3500/" + post.post_url, postBio: post.user_bio,
               postLiked:post.post_like, likesCount:post.post_like_count, showComment: false}
-        })
+        }) : null
     }catch(err){
         throw err
     }

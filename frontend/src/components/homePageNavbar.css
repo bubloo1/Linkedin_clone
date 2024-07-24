@@ -47,16 +47,19 @@
     position: absolute;
     top: 70px;
     right: 190px;
-    background: rgb(204, 199, 199);
+    background: rgb(235, 235, 235);
     height: 200px;
     width: 120px;
     padding: 10px;
+    border: 2px solid black;
 }
+
+
 
 .profile_box>p{
     cursor: pointer;
     display: block;
-    text-align: center;
+    text-align: left;
     color: black;
 }
 

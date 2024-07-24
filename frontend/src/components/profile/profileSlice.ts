@@ -70,7 +70,7 @@ export const getProfileDetails = createAsyncThunk('profile/getprofiledetails',as
             "Authorization": `Bearer ${localStorage.getItem('jwtToken')}`
           }});
         console.log(response,"response")
-        return response.data.message[0]
+        return response.data.message
      
     }catch(err){
         console.log(err,"error")
@@ -87,8 +87,8 @@ export const getConnectionCount = createAsyncThunk('profile/getconnectionCount',
             "Content-Type":"application/json",
             "Authorization": `Bearer ${localStorage.getItem('jwtToken')}`
           }});
-        console.log(response.data.message[0].connectionsCount,"response")
-        return response.data.message[0].connectionsCount
+        console.log(response.data.message.connectionsCount,"response")
+        return response.data.message.connectionCount
      
     }catch(err){
         console.log(err,"error")
