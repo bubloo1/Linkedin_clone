@@ -18,21 +18,32 @@ const storage = multer.diskStorage({
 export const upload = multer({ storage: storage});
 
 export async function sendPosts(req:express.Request,res:express.Response){
-    let combinedData:any;
+  try{
+    let combinedData = [];
     let show_post = await postMdl.postCollection.find().lean().exec()
     const userDetails = await authMdl.userCollection.findOne({user_id:req.user.user_id}).lean().exec()
-   
-    const newPost = show_post[0]
 
-    console.log(userDetails, "userDetails");
-    console.log(show_post[0], "showPost");
 
-    if(show_post[0]){
-      combinedData = { ...newPost, ...userDetails };
+    for(let eachPost of show_post){
+      combinedData.push({...eachPost,...userDetails})
     }
+
+    
+   
+    // const newPost = show_post[0]
+
+    // console.log(userDetails, "userDetails");
+    // console.log(show_post[0], "showPost");
+
+    // if(show_post[0]){
+    //   combinedData = { ...show_post, ...userDetails };
+    // }
     
     console.log("combined Object",combinedData,"combainedObject")
     return res.status(200).json({ message: [combinedData] });
+  }catch(error){
+    throw error
+  }
 }
 
 
@@ -67,9 +78,22 @@ export async function postCommentCtrl(req:express.Request,res:express.Response){
 }
 
 export async function sendCommentCtrl(req:express.Request,res:express.Response){
-  const {postID} = req.body
-  console.log(postID,"new post")
-  let postLikesDetails = await postMdl.commentCollection.find({post_id:postID})
-  console.log(postLikesDetails,"postLikesDetails")
-  return res.status(200).json({ message: postLikesDetails });
+  try{
+    const {postID} = req.body
+    console.log(postID,"in send comments")
+    let getPostComments = await postMdl.commentCollection.find({post_id:postID})
+    let combinedData : any = {}
+    for(let eachComment of getPostComments){
+      if(eachComment.post_id in combinedData) {
+        combinedData[eachComment.post_id].push(eachComment)
+      }else{
+        combinedData[eachComment.post_id] = [eachComment]
+      }
+    }
+    console.log(combinedData,"postLikesDetails")
+    return res.status(200).json({ message: combinedData });
+  }catch(error){
+    throw error
+  }
+
 }

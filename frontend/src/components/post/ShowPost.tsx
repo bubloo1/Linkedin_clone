@@ -9,10 +9,11 @@ import Profile from '../../assets/user-solid.svg'
 import { faComment } from '@fortawesome/free-regular-svg-icons'
 import { faRetweet } from '@fortawesome/free-solid-svg-icons/faRetweet'
 import { faPaperPlane } from '@fortawesome/free-regular-svg-icons/faPaperPlane'
-import {toggleLike, toggleComment} from './postSlice'
+import {toggleLike, toggleComment,toggleAddcomments} from './postSlice'
 
 // import { showAllPost } from './showPostSlice'
 type myPost = {
+  [x: string]: any
   postID:number,
   userPost:string
   userFirstName: string
@@ -74,6 +75,7 @@ const ShowPost = () => {
     e.preventDefault()
     if(addComment != ''){
       dispatch(saveComment({addComment,postID}))
+      dispatch(toggleAddcomments({comment:addComment,postID}))
     }
 
     setAddComment('')
@@ -147,7 +149,8 @@ const ShowPost = () => {
               <input value={addComment} onChange={(e) => setAddComment(e.target.value)} type="text" />
             </form>
           </div>
-          {commentStatus === 'succeeded' && comments.map((comment:any) => (
+          {commentStatus === 'succeeded' && console.log(comments,"in comp comments")}
+          {commentStatus === 'succeeded' && comments[p.postID]?.map((comment:any) => (
           <div key={comment.comment_id} className="show_comments">
             <p>{comment.comment}</p>
           </div>

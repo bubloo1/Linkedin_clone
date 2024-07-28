@@ -20,6 +20,8 @@ const PostCard = () => {
     const [overlay,setOverlay] = useState<boolean>(false)
     const [post,setPost] = useState<string>('')
     const fileInputRef = useRef<any>(null)
+    const [postImage,setPostImage] = useState<any>('')
+    const [postUploadImage,setUploadPostImage] = useState<any>('')
     
     const onPostChange = (e: ChangeEvent<HTMLInputElement>) => setPost(e.target.value)
 
@@ -36,25 +38,24 @@ const PostCard = () => {
         fileInputRef.current.click()
     }
 
-    const formData = new FormData()
     function handlePostImg (e:any){
         // e.preventDefault();
         console.log(e.target.files[0],"sdfgfgdfgfgdg")
         const profileImage = e.target.files[0]
-        // setPostImage(URL.createObjectURL(profileImage))
-        formData.append("post_image",profileImage)
+        setPostImage(URL.createObjectURL(profileImage))
+        setUploadPostImage(profileImage)
         
     }
 
  
     async function handlePost(e: any){
         // e.preventDefault();
+        // formData.append("post",post)
+        const formData = new FormData()
+        formData.append("post_image",postUploadImage)
         formData.append("post",post)
-        console.log("send send send")
-        console.log(formData.get('post'),"formData")
         await dispatch(addNewPost(formData));
-        formData.delete("post")
-        formData.delete("post_image")
+        console.log(formData,"formData")
         setOverlay((prev) => !prev) 
         setPost('')
     }
@@ -69,7 +70,7 @@ const PostCard = () => {
                 <input type="text" className='post_input' placeholder = {` ${overlay ? "what do you want to talk about?": "Start to post" }`}
                             onClick={() => handleOverlay(1)}  value={post} onChange={onPostChange}/>
 
-                {/* <form  style={{ display: `${overlay ? "block": "none"}`}}> */}
+    
 
                     <div style={{ display: `${overlay ? "block": "none"}`}} className= {`post_input_overlay ${overlay ? "show": null }`} >
                         <div className="post_form_profile">
@@ -82,6 +83,8 @@ const PostCard = () => {
 
                         <input type="text" placeholder = {` ${overlay ? "what do you want to talk about?": "Start to post" }`}
                             onClick={() => handleOverlay(1)}  value={post} onChange={onPostChange}/>
+
+                            <img src={postImage ? postImage : null} alt="" className='postupload_image'/>
                         <div className="post_actions">
                             <div className="button-photo" onClick={handleImgUpload} style={{ display: `${overlay ? "block": "none"}`}}>
                                 <FontAwesomeIcon className='image_icon' icon={faImage}/>
@@ -91,7 +94,7 @@ const PostCard = () => {
                             <button className='post_btn' onClick={handlePost} >Post</button>
                         </div>
                     </div>
-                {/* </form> */}
+             
                
             </div>
             <div className="postcard-bottom">

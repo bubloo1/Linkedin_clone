@@ -9,7 +9,9 @@ import { faBell } from '@fortawesome/free-solid-svg-icons'
 import Profile from '../assets/user-solid.svg'
 import './homePageNavbar.css'
 import { Link, Outlet, useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import { ChangeEvent, useEffect, useRef, useState } from 'react'
+import axios from 'axios'
+import api from '../api/getBaseURL'
 
 
 const HomePageNavbar = ({notificationCount}:any) => {
@@ -17,6 +19,50 @@ const HomePageNavbar = ({notificationCount}:any) => {
   const navigate = useNavigate()
   const [showProfileBox, setShowProfileBox] = useState<boolean>(false)
   const [showNotification, setShowNotification] = useState<boolean>(false)
+  const [getUserName, setGetUsername] = useState<string>('')
+  const [getUserNameData, setGetUsernameData] = useState<Array<Object>>([])
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const requiredUsername = (e:ChangeEvent<HTMLInputElement>) => setGetUsername(e.target.value)
+  const [isClickedOutside, setIsClickedOutside] = useState(false);
+  const isInitialMount = useRef(true);
+  
+  useEffect( () => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return; // Do not run the effect on the initial render
+    }
+    async function fetchUserData() {
+      const response = await api.post('profile/usernames',{getUserName},{
+        headers:{
+          // "Accept": "application/json",
+          "Content-Type":"application/json",
+          "Authorization": `Bearer ${localStorage.getItem('jwtToken')}`
+      
+       }})
+      
+       console.log(response,"getuser response")
+       setGetUsernameData(response.data.message)
+    }
+    fetchUserData()
+  },[getUserName])
+
+  const handleSearch = (e: MouseEvent) => {
+    if(inputRef.current && !inputRef.current.contains(e.target as Node)) {
+      setIsClickedOutside(true);
+      console.log("in if")
+      setGetUsernameData([])
+    } else {
+      setIsClickedOutside(false);
+      console.log("handleSearchhandleSearch")
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleSearch);
+    return () => {
+      document.removeEventListener('mousedown', handleSearch);
+    };
+  }, []);
 
   function handleNotification (){
     setShowNotification((prev)=> !prev)
@@ -28,6 +74,7 @@ const HomePageNavbar = ({notificationCount}:any) => {
     console.log(showProfileBox,"showProfileBox")
   }
   function userLogout (){
+    setGetUsernameData([])
     navigate('/')
     window.localStorage.removeItem('isLoggedIn')
     window.localStorage.removeItem('userID')
@@ -39,7 +86,14 @@ const HomePageNavbar = ({notificationCount}:any) => {
       <div className="homepage-navbar__container">
         <div className="homepage-left">
           <FontAwesomeIcon className='home-linkedin__icon' icon={faLinkedin}/>
-          <input type='text'/>
+          <input type='text' ref={inputRef} onChange={requiredUsername} />
+          <div className="usernames" style={ getUserNameData.length > 0 && !isClickedOutside ? {display: "block"} : {display: 'none'}}>
+            {getUserNameData.length > 0 && !isClickedOutside && getUserNameData.map((user:any) => (
+            <div key={user.user_id} className="show_usernames">
+              <p>{user.user_username}</p>
+            </div>
+          ))}
+          </div>
         </div>
         <div className="homepage-right">
           <div className="homepage-icon">

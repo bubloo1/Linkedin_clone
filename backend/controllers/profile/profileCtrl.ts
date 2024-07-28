@@ -117,32 +117,6 @@ export async function getNotificationDetailsCtrl(req:express.Request,res:express
   }
 }
 
-// export async function getNotificationConnectionDetailsCtrl(req:express.Request,res:express.Response){
-//   try{
-//     console.log(req.user.user_id,"req.user.user_id")
-//       let getProfileConDetails = await profileMdl.networkCollection.find({connection_from_id:req.user.user_id}).lean().exec()
-//       let getProfielDetails = await authMdl.userCollection.find({user_id:req.user.user_id}).lean().exec()
-    
-      
-//       for(let eachObj in getProfileConDetails){
-//         for(let eachProfileDetail in getProfielDetails){
-//           eachObj.connection_from_id == eachProfileDetail.user_id 
-//         }
-//         // console.log(eachObj,"eachObj")
-//       }
-
-//       console.log(getProfileConDetails,"getProfileConDetails")
-//       console.log(getProfielDetails,"getProfielDetails")
-//       // console.log(getProfielConDetails,"newGetProfiel")
-//       // const bothData = {...getProfielConDetails,...newGetProfielDetails}
-//       // console.log(bothData,"getProfielDetails")
-
-//       return res.status(200).json({ message: "fgfgfg" });
-//   }catch(error){
-//       throw error
-//   }
-// }
-
 export async function getNotificationConnectionDetailsCtrl(req: express.Request, res: express.Response) {
   try {
     console.log(req.user.user_id, "req.user.user_id");
@@ -191,6 +165,19 @@ export async function connectionCountCtrl(req:express.Request,res:express.Respon
       let getConnectionCount  = await profileMdl.networkCollection.countDocuments({connection_from_id:req.body.userID, connection_status:1}).lean().exec()
      
       return res.status(200).json({ message: {connectionCount:getConnectionCount} });
+  }catch(error){
+      throw error
+  }
+}
+
+
+export async function searchUsersCtrl(req:express.Request,res:express.Response){
+  try{
+    const { getUserName } = req.body
+    console.log( req.body,"getUseranme")
+    const getUsers  = await authMdl.userCollection.find({user_username: new RegExp(getUserName,'i')}).lean().exec()
+     console.log(getUsers,"getusers for username")
+    return res.status(200).json({ message: getUsers });
   }catch(error){
       throw error
   }

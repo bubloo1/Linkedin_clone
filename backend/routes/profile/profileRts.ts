@@ -13,5 +13,6 @@ profileRouter.get("/getnotificationdetails", checkToken ,profileCtrl.getNotifica
 profileRouter.get("/getnotifications", checkToken ,profileCtrl.getNotificationConnectionDetailsCtrl)
 profileRouter.get("/updateconnectionstatus/:id", checkToken ,profileCtrl.updateConnectionStatusCtrl)
 profileRouter.post("/getconnectionCount", checkToken ,profileCtrl.connectionCountCtrl)
+profileRouter.post("/usernames", checkToken ,profileCtrl.searchUsersCtrl)
 
 module.exports = profileRouter

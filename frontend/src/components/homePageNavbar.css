@@ -18,6 +18,7 @@
     display: flex;
     align-items: center;
     gap: 1rem;
+    position: relative;
 }
 
 .homepage-left>input{
@@ -74,4 +75,18 @@
 
 .dont_show_notification{
     display: none;
+}
+
+
+.usernames{
+    position: absolute;
+    top: 100%;
+    left: 16%;
+    width: 275px;
+    height: 200px;
+    background: rgb(241, 241, 241);
+}
+
+.show_usernames > p{
+    margin: 10px 10px;
 }

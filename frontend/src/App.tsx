@@ -52,8 +52,8 @@ function App() {
   return (
     <div className="app">
       <Routes>
-        <Route path="/">
-          <Route index element={ loginStatus ? <WelcomePage notificationCount={notificationCount}/> : <LoginPage/>}/>
+        <Route path="/" >
+          
             <Route path="/signin">
               <Route index element={<Signin/>}/>
             </Route>
@@ -75,6 +75,7 @@ function App() {
             <Route path='/notification' element={<HomePageNavbar notificationCount={notificationCount} />}>
               <Route index element={<Notification/>}/>
             </Route>
+            <Route index element={ loginStatus ? <WelcomePage notificationCount={notificationCount}/> : <LoginPage/>}/>
         </Route>
       </Routes>
     </div>

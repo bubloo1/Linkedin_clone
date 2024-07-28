@@ -4,7 +4,7 @@ import api from '../../api/getBaseURL'
 type myState = {
     addPosts: string[]
     posts: string[]
-    comments: Array<object>
+    comments: object
     loading1: string
     loading2: string
     loading3: string
@@ -15,7 +15,7 @@ type myState = {
 const initialState: myState = {
    addPosts: [],
    posts: [],
-   comments: [],
+   comments: {},
    loading1: "idle" ,
    loading2: "idle",
    loading3: "idle",
@@ -57,13 +57,13 @@ export const getPost = createAsyncThunk('posts/showpost',async () =>{
           localStorage.setItem('jwtToken',response.headers['authorization'])
         }
         console.log(response.data.message,"response.data.message")
-        return response.data.message ? response.data.message.map((post:any) => {
+        return response.data.message[0] ? response.data.message[0].map((post:any) => {
             return {postID:post.post_id, userPost:post.user_post, 
               userURL: "http://localhost:3500/" + post.profile_url, 
               userFirstName: post.first_name, userLastName: post.last_name, 
               postURL: "http://localhost:3500/" + post.post_url, postBio: post.user_bio,
               postLiked:post.post_like, likesCount:post.post_like_count, showComment: false}
-        }) : null
+        }) : []
     }catch(err){
         throw err
     }
@@ -100,6 +100,7 @@ export const getComments = createAsyncThunk('posts/getcomments',async (postID:{p
         if(response.headers['authorization']){
           localStorage.setItem('jwtToken',response.headers['authorization'])
         }
+        console.log(response.data.message,"response.data.message")
         return response.data.message
     }catch(err){
         throw err
@@ -138,7 +139,13 @@ const postSlice = createSlice({
         state.posts = action.payload
       },
       toggleComment: (state, action)=> {
-        state.posts = action.payload
+        state.posts = action.payload 
+      },
+
+      toggleAddcomments: (state,action) => {
+        /// just pushing the commet not checking fot esact value
+        state.comments = {...state.comments, ...action.payload[0]}
+        // console.log(state.comments[0],"comments")
       }
 
     },
@@ -174,7 +181,8 @@ const postSlice = createSlice({
         //comments fetch request
         builder.addCase(getComments.fulfilled, (state, action) => {
           state.loading3 = "succeeded";
-          state.comments = action.payload;
+          state.comments = {...state.comments, ...action.payload}
+          console.log(state.comments,"comments")
         });
 
       },
@@ -184,5 +192,6 @@ const postSlice = createSlice({
 
 export const { toggleLike } = postSlice.actions
 export const { toggleComment } = postSlice.actions
+export const { toggleAddcomments } = postSlice.actions
 
 export default postSlice.reducer
