@@ -47,8 +47,8 @@ export async function saveProfileDetailsCtrl(req:express.Request,res:express.Res
               case 'selectedPronouns':
                 values.gender = `${value}`;
                 break;
-              case 'additionalName':
-                values.additional_name = `${value}`;
+              case 'userBio':
+                values.user_bio = `${value}`;
                 break;
               case 'headline':
                 values.headline = `${value}`;

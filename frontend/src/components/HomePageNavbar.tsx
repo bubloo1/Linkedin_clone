@@ -64,6 +64,11 @@ const HomePageNavbar = ({notificationCount}:any) => {
     };
   }, []);
 
+  function handleProfileDetails (user_id:number){
+    console.log(user_id,"handleProfileDetails")
+    navigate('/profile',{state:user_id})
+  }
+
   function handleNotification (){
     setShowNotification((prev)=> !prev)
     navigate('/notification')
@@ -88,9 +93,9 @@ const HomePageNavbar = ({notificationCount}:any) => {
           <FontAwesomeIcon className='home-linkedin__icon' icon={faLinkedin}/>
           <input type='text' ref={inputRef} onChange={requiredUsername} />
           <div className="usernames" style={ getUserNameData.length > 0 && !isClickedOutside ? {display: "block"} : {display: 'none'}}>
-            {getUserNameData.length > 0 && !isClickedOutside && getUserNameData.map((user:any) => (
-            <div key={user.user_id} className="show_usernames">
-              <p>{user.user_username}</p>
+            {getUserNameData.length > 0  && getUserNameData.map((user:any) => (
+            <div key={user.user_id} className="show_usernames" onClick={() => handleProfileDetails(user.user_id)}>
+              <p style={{cursor:"pointer"}} >{user.user_username}</p>
             </div>
           ))}
           </div>

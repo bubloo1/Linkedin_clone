@@ -1,6 +1,6 @@
 
 .profile_container{
-    background-color: pink;
+    background-color: rgb(235, 235, 235);
     width: 70%;
     padding: 15px;
 }
@@ -55,7 +55,7 @@
 /* profile image css */
 
 .profile_img{
-    background: rgb(202, 16, 16);
+    background: black;
     width: 170px;
     height: 170px;
     border-radius: 50%;
@@ -74,7 +74,7 @@
 /* profile image popup */
 
 .profile_img_popup{
-    background: green;
+    background: rgb(235, 235, 235);
     position: absolute;
     left: 50%;
     top: 40%;
@@ -108,10 +108,23 @@
 }
 
 .add_photo{
+    width: 100%;
     float: left;
     text-align: center;
     cursor: pointer;
 }
 
+.profile_save{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-
+.save_profile{
+    font-size: 21px;
+    border: none;
+    padding: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+}

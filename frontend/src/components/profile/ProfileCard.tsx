@@ -1,7 +1,7 @@
 import { faPencil } from '@fortawesome/free-solid-svg-icons'
 import './profileCard.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useEffect, useRef, useState } from 'react'
+import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import ProfileForm from './ProfileForm'
 import Profile from '../../assets/user-solid.svg'
 import { faXmark } from '@fortawesome/free-solid-svg-icons/faXmark'
@@ -15,6 +15,7 @@ const ProfileCard = () => {
     const dispatch = useDispatch<ThunkDispatch<any,any,any>>()
     const [showForm,setShowForm] = useState<boolean>(false)
     const [profileImage, setProfileImage] = useState<any>(null)
+    const [saveProfileImage, setSaveProfileImage] = useState<string>('');
     let [connectionsCount, setConnectionsCount] = useState<any>(0)
 
     const fileInpurRef = useRef<any>(null)
@@ -42,15 +43,23 @@ const ProfileCard = () => {
     function handleImageUpload(e: any){
         e.preventDefault()
         const profileImage = e.target.files[0]
+
         setProfileImage(URL.createObjectURL(profileImage))
+        setSaveProfileImage(profileImage)
+    }
+
+    function sendImage (){
         const formData = new FormData()
-        formData.append("profile_image",profileImage)
+        formData.append("profile_image",saveProfileImage)
         dispatch(uploadProfileImage(formData))
+        setCloseImgPopup(prev => !prev)
     }
     console.log("http://localhost:3500/" + profileDetails.profile_url)
     // console.log(profileDetails.message[0].profile_url)
    
   return (
+    <>
+    {profileDetailsStatus === 'succeeded' && console.log(profileDetails,"profile details -----")}
     <div className="profile_container">
         <div className="top">
             <img src="" alt="" />
@@ -59,16 +68,21 @@ const ProfileCard = () => {
 
             <div className="profile_img_popup" style={closeImgPopup ? {display:"none"} : {display:"block"}}>
                 <div className="profile_img_popup_top">
-                    <p style={{color: "white"}}>Profile photo</p>
-                    <FontAwesomeIcon icon={faXmark} onClick={() => setCloseImgPopup(prev => !prev)} className='popup_cancel' style={{color: "white"}}/>
+                    <p style={{color: "black"}}>Profile photo</p>
+                    <FontAwesomeIcon icon={faXmark} onClick={() => setCloseImgPopup(prev => !prev)} className='popup_cancel' style={{color: "black"}}/>
                 </div>
                 <div className="profile_img_popup_middle">
-                    <img src={profileImage ? profileImage : Profile} alt="" className='popup_image'/>
+                    <img src={profileImage ? profileImage : Profile} alt="" className='popup_image' onClick={handleImageUploadClick}/>
                 </div>
                 <div className="profile_img_popup_bottom">
-                    <div className="add_photo" onClick={handleImageUploadClick}>
-                        <FontAwesomeIcon icon={faCamera} className='camera_icon' style={{color: "white"}}/>
-                        <p  style={{color: "white"}}>add photo</p>
+                    <div className="add_photo" >
+                        <div className='profile_save'>
+                            <div>
+                                <FontAwesomeIcon icon={faCamera} className='camera_icon' style={{color: "black"}}/>
+                                <p  style={{color: "black"}}>add photo</p>
+                            </div>
+                            <button className='save_profile' onClick={sendImage}>Save</button>
+                        </div>
                         <input ref={fileInpurRef} onChange={handleImageUpload} type="file" accept='image/*' style={{display:'none'}}/>
                     </div>
                 </div>
@@ -79,9 +93,11 @@ const ProfileCard = () => {
             </div>
             <div className="profile_details">
                 <div className="details_left">
-                    <div className="profile_name">Shaik Allabaksh</div>
-                    <div className="profile_bio">Backend Developer</div>
-                    <div className="address">Hyderabad,Telangana</div>
+                    <div className="profile_name">{ 
+                        (profileDetails.first_name && profileDetails.last_name) ? (profileDetails.first_name + profileDetails.last_name) : 
+                        profileDetails.user_username }</div>
+                    <div className="profile_bio">{(profileDetails.user_bio ?? 'No Bio')}</div>
+                    <div className="address">{(profileDetails.city ?? 'No Location')}</div>
                     <div className="profile_connections">{connectionsCount} connections</div>
                     <div className="profile_work">
                         <button className="open">Open to</button>
@@ -97,6 +113,7 @@ const ProfileCard = () => {
         </div>
         {showForm && <ProfileForm showForm = {() => setShowForm(prev => !prev)} />}
     </div>
+    </>
   )
 }
 

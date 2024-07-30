@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import './profileForm.css';
-import api from '../../api/getBaseURL'
 import { useDispatch } from 'react-redux';
 import { ThunkDispatch } from '@reduxjs/toolkit';
 import {sendProfileDetails} from './profileSlice'
@@ -8,7 +7,7 @@ import {sendProfileDetails} from './profileSlice'
 type myDetails = {
   firstName?:string
   lastName?:string
-  additionalName?:string
+  userBio?:string
   selectedPronouns?:string
   headline?:string
   country?:string
@@ -18,7 +17,7 @@ const ProfileForm = ({showForm}:any) => {
   const [selectedPronouns, setSelectedPronouns] = useState("");
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [additionalName, setAdditionalName] = useState('');
+  const [userBio, setUserbio] = useState<string>('');
   const [headline, setHeadline] = useState('');
   const [country,setCountry] = useState('')
   const [city,setCity] = useState('')
@@ -32,7 +31,7 @@ function saveProfileDetails() {
     'selectedPronouns',
     'firstName',
     'lastName',
-    'additionalName',
+    'userBio',
     'headline',
     'country',
     'city',
@@ -45,8 +44,8 @@ function saveProfileDetails() {
       details[field] = firstName;
     } else if (field === 'lastName' && lastName) {
       details[field] = lastName;
-    } else if (field === 'additionalName' && additionalName) {
-      details[field] = additionalName;
+    } else if (field === 'userBio' && userBio) {
+      details[field] = userBio;
     } else if (field === 'headline' && headline) {
       details[field] = headline;
     } else if (field === 'country' && country) {
@@ -85,9 +84,9 @@ function saveProfileDetails() {
         <input
           className="additional_name"
           type="text"
-          placeholder="enter additional"
-          value={additionalName}
-          onChange={(e) => setAdditionalName(e.target.value)}
+          placeholder="enter bio"
+          value={userBio}
+          onChange={(e) => setUserbio(e.target.value)}
         />
         <p>Pronouns</p>
         <div className="pronouns">
