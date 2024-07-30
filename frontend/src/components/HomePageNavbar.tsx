@@ -57,16 +57,17 @@ const HomePageNavbar = ({notificationCount}:any) => {
     }
   }
 
-  useEffect(() => {
-    document.addEventListener('mousedown', handleSearch);
-    return () => {
-      document.removeEventListener('mousedown', handleSearch);
-    };
-  }, []);
+  // useEffect(() => {
+  //   document.addEventListener('mousedown', handleSearch);
+  //   return () => {
+  //     document.removeEventListener('mousedown', handleSearch);
+  //   };
+  // }, []);
 
   function handleProfileDetails (user_id:number){
     console.log(user_id,"handleProfileDetails")
     navigate('/profile',{state:user_id})
+    setGetUsernameData([])
   }
 
   function handleNotification (){

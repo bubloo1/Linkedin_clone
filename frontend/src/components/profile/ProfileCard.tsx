@@ -1,7 +1,7 @@
 import { faPencil } from '@fortawesome/free-solid-svg-icons'
 import './profileCard.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { ChangeEvent, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import ProfileForm from './ProfileForm'
 import Profile from '../../assets/user-solid.svg'
 import { faXmark } from '@fortawesome/free-solid-svg-icons/faXmark'
@@ -9,9 +9,12 @@ import { faCamera } from '@fortawesome/free-solid-svg-icons/faCamera'
 import { uploadProfileImage, getProfileDetails, getConnectionCount } from './profileSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { ThunkDispatch } from '@reduxjs/toolkit'
-import api from '../../api/getBaseURL'
+import { useLocation } from 'react-router-dom';
 
 const ProfileCard = () => {
+    const location = useLocation();
+    const userID:number = location.state ?? localStorage.getItem('userID');
+    
     const dispatch = useDispatch<ThunkDispatch<any,any,any>>()
     const [showForm,setShowForm] = useState<boolean>(false)
     const [profileImage, setProfileImage] = useState<any>(null)
@@ -24,13 +27,13 @@ const ProfileCard = () => {
     const profileDetails = useSelector((state:any) => state.profile.profileDetails)
     
     useEffect(() => {
-        dispatch(getProfileDetails())
+        dispatch(getProfileDetails(userID))
         const fetchConnectionCount = async () => {
             connectionsCount = await dispatch(getConnectionCount(localStorage.getItem('userID')))
             setConnectionsCount(connectionsCount.payload)
         }
         fetchConnectionCount()
-    },[])
+    },[userID])
 
     function handleForm (){
         showForm ? setShowForm(false) :  setShowForm(true)

@@ -74,8 +74,8 @@ export async function saveProfileDetailsCtrl(req:express.Request,res:express.Res
 
 export async function getProfileDetailsCtrl(req:express.Request,res:express.Response){
   try{
-      console.log(req.body,"body")
-      let create_post = await authMdl.userCollection.findOne({user_id:req.user.user_id})
+    const { id } = req.params
+      let create_post = await authMdl.userCollection.findOne({user_id:id})
       console.log(create_post,"create post")
       return res.status(200).json({ message: create_post });
   }catch(error){

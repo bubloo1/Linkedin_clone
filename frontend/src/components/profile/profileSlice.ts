@@ -60,9 +60,9 @@ export const uploadProfileImage = createAsyncThunk('profile/image',async (formDa
     }
 })
 
-export const getProfileDetails = createAsyncThunk('profile/getprofiledetails',async () =>{
+export const getProfileDetails = createAsyncThunk('profile/getprofiledetails',async (userID:number) =>{
     try{
-        const response = await api.get('/profile/getprofiledetails',{
+        const response = await api.get(`/profile/getprofiledetails/${userID}`,{
             headers:{
             // "Accept": "application/json",
             // "Content-Type":"application/json",
